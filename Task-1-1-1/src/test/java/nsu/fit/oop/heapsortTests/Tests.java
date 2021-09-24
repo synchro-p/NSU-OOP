@@ -1,4 +1,6 @@
-import org.junit.jupiter.api.Test;
+package nsu.fit.oop.heapsortTests;//import org.junit.jupiter.api.Test;
+
+import nsu.fit.oop.heapsort.Heapsort;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -16,9 +18,10 @@ public class Tests {
         assertEquals(Arrays.toString(Heapsort.heapsort(string)), Arrays.toString(arr));
     }
 
-    @Test
-    public void noCurlies(){
-        assertThrows(IllegalArgumentException.class,() -> Heapsort.heapsort("1,2,3,4,5"));
+    @ParameterizedTest
+    @ValueSource (strings = {"1,2,3,4,5", "{1,2,3,4,5", "1,2,3,4,5}", "[1,2,3,4,5]"})
+    public void noCurlies(String string){
+        assertThrows(IllegalArgumentException.class,() -> Heapsort.heapsort(string));
     }
 
     @ParameterizedTest

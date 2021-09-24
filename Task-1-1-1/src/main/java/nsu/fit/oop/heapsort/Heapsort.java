@@ -1,3 +1,5 @@
+package nsu.fit.oop.heapsort;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -9,9 +11,7 @@ public class Heapsort {
 
     public static void main(String[] args) {
         Scanner sys = new Scanner (System.in);
-
         String inp;
-
         inp = sys.next();
 
         Integer[] arr = heapsort(inp);
@@ -24,7 +24,7 @@ public class Heapsort {
         System.out.println(res);
     }
 
-    static Integer[] heapsort(String inp){
+    public static Integer[] heapsort(String inp){
         if (inp.charAt(0) != '{' || inp.charAt(inp.length()-1) != '}'){
             throw new IllegalArgumentException("no curly braces");
         }
