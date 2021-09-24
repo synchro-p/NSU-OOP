@@ -1,3 +1,5 @@
+package nsu.fit.oop.substring;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -11,7 +13,7 @@ public class Substring {
         System.out.println(res);
     }
 
-    static String search(String filename, String query){
+    public static String search(String filename, String query){
         if (filename.equals("")) throw new IllegalArgumentException("empty filename");
         if (query.equals("")) throw new IllegalArgumentException("empty query");
 
