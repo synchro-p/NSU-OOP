@@ -8,13 +8,16 @@ import java.util.Scanner;
 public class Substring {
     public static void main(String[] args) {
         Scanner sys = new Scanner(System.in);
-        String filename = sys.nextLine(),searchFor = sys.nextLine();
+        String filename = sys.nextLine();
+        String searchFor = sys.nextLine();
         String res = search(filename,searchFor);
         System.out.println(res);
     }
 
     public static String search(String filename, String query){
+        if (filename == null) throw new IllegalArgumentException("null filename");
         if (filename.equals("")) throw new IllegalArgumentException("empty filename");
+        if (query==null) throw new IllegalArgumentException("empty query");
         if (query.equals("")) throw new IllegalArgumentException("empty query");
 
         int l = query.length();

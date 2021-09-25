@@ -1,8 +1,6 @@
 package nsu.fit.oop.heapsort;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 import java.lang.*;
 
 import static java.lang.Integer.parseInt;
@@ -14,7 +12,8 @@ public class Heapsort {
         String inp;
         inp = sys.next();
 
-        Integer[] arr = heapsort(inp);
+        Integer[] arr = parseToArray(inp);
+        heapsort(arr);
 
         String res = Arrays.toString(arr);
         res = res.substring(1,res.length()-1);
@@ -24,16 +23,15 @@ public class Heapsort {
         System.out.println(res);
     }
 
-    public static Integer[] heapsort(String inp){
+    public static Integer[] parseToArray(String inp){
         if (inp.charAt(0) != '{' || inp.charAt(inp.length()-1) != '}'){
             throw new IllegalArgumentException("no curly braces");
         }
         inp = inp.substring(1,inp.length()-1);
         Scanner ints = new Scanner (inp);
-        ints.useDelimiter(",");
+        ints.useDelimiter (",");
 
         ArrayList<Integer> array = new ArrayList<>();
-
         try{
             while (ints.hasNext()){
                 array.add(parseInt(ints.next()));
@@ -41,20 +39,17 @@ public class Heapsort {
         } catch (NumberFormatException e){
             throw new IllegalArgumentException("Bad input - wrong delimiter or value");
         }
+        return array.toArray (new Integer [0]);
+    }
 
-        Integer[] arr = array.toArray(new Integer[0]);
-
-
+    public static void heapsort(Integer[] arr){
         heapBuild (arr);
         int end = arr.length-1;
         while (end>=0){
-            int t=arr[0];
-            arr[0] = arr[end];
-            arr[end] = t;
+            swap (arr, end, 0);
             end--;
             heapify(arr,0,end);
         }
-        return arr;
     }
 
     static void heapBuild(Integer[] arr){
@@ -75,10 +70,14 @@ public class Heapsort {
             largest = right;
         }
         if (largest != root){
-            int t = arr[root];
-            arr[root] = arr[largest];
-            arr[largest] = t;
+            swap(arr, largest, root);
             heapify(arr, largest, end);
         }
+    }
+
+    static void swap (Integer[] a, int i, int j){
+        int t = a[i];
+        a[i] = a[j];
+        a[j] = t;
     }
 }
