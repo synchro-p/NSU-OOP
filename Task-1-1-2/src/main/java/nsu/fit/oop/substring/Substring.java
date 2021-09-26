@@ -14,6 +14,13 @@ public class Substring {
         System.out.println(res);
     }
 
+    /**
+     * Search for all occurrences of a given substring in given file
+     * @param filename String that contains name of file where search is conducted
+     * @param query the substring for search for
+     * @return string in format {r1,r2,r3...} with ri being an index of the first element
+     * of the i-th occurrence of substring
+     */
     public static String search(String filename, String query){
         if (filename == null) throw new IllegalArgumentException("null filename");
         if (filename.equals("")) throw new IllegalArgumentException("empty filename");

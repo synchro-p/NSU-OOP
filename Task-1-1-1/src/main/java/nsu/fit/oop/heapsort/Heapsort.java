@@ -23,6 +23,12 @@ public class Heapsort {
         System.out.println(res);
     }
 
+    /**
+     * Parses a string in format {a1,..an} into an Integer[]
+     * @param inp Parsed string
+     * @return Integer[] with values from string
+     * @throws IllegalArgumentException Invalid arguments or formatting
+     */
     public static Integer[] parseToArray(String inp){
         if (inp.charAt(0) != '{' || inp.charAt(inp.length()-1) != '}'){
             throw new IllegalArgumentException("no curly braces");
@@ -42,6 +48,10 @@ public class Heapsort {
         return array.toArray (new Integer [0]);
     }
 
+    /**
+     * Heapsort for an Integer[] array
+     * @param arr array to be sorted
+     */
     public static void heapsort(Integer[] arr){
         heapBuild (arr);
         int end = arr.length-1;
@@ -52,12 +62,23 @@ public class Heapsort {
         }
     }
 
+    /**
+     * Builds a max-heap from a given Integer[] array
+     * Root element is at index 0, children of i-th element are 2*i and 2*i+1
+     * @param arr Integer[] array from which the max-heap is built
+     */
     static void heapBuild(Integer[] arr){
         for (int i = arr.length/2; i>=0; i--){
             heapify(arr, i, arr.length-1);
         }
     }
 
+    /**
+     * Restores max-heap properties in an array
+     * @param arr Integer[] array where max-heap properties could have been violated
+     * @param root the biggest element in which properties should be restored
+     * @param end the last current element of max-heap
+     */
     static void heapify(Integer[] arr, int root, int end){
         int left = 2*root;
         int right = 2*root+1;
@@ -75,6 +96,12 @@ public class Heapsort {
         }
     }
 
+    /**
+     * swaps two elements of an Integer[] array using a temporary variable
+     * @param a array form which elements are taken
+     * @param i index of the first element to swap
+     * @param j index of the second element to swap
+     */
     static void swap (Integer[] a, int i, int j){
         int t = a[i];
         a[i] = a[j];
