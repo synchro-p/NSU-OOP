@@ -17,7 +17,6 @@ public class Heapsort {
 
         String res = Arrays.toString(arr);
         res = res.substring(1,res.length()-1);
-
         res = "{" + res + "}";
         res = res.replaceAll(" ","");
         System.out.println(res);
@@ -30,10 +29,16 @@ public class Heapsort {
      * @throws IllegalArgumentException Invalid arguments or formatting
      */
     public static Integer[] parseToArray(String inp){
+        if (inp == null || inp.length()==0){
+            throw new IllegalArgumentException("Bad input - null/empty string");
+        }
         if (inp.charAt(0) != '{' || inp.charAt(inp.length()-1) != '}'){
-            throw new IllegalArgumentException("no curly braces");
+            throw new IllegalArgumentException("Bad input - no curly braces on ends");
         }
         inp = inp.substring(1,inp.length()-1);
+        if (inp.charAt(0) == ',' || !Character.isDigit(inp.charAt(inp.length()-1))){
+            throw new IllegalArgumentException("Bad input - wrong delimiter or value");
+        }
         Scanner ints = new Scanner (inp);
         ints.useDelimiter (",");
 
@@ -53,6 +58,7 @@ public class Heapsort {
      * @param arr array to be sorted
      */
     public static void heapsort(Integer[] arr){
+        if (arr == null) throw new IllegalArgumentException("null array");
         heapBuild (arr);
         int end = arr.length-1;
         while (end>=0){
@@ -67,7 +73,7 @@ public class Heapsort {
      * Root element is at index 0, children of i-th element are 2*i and 2*i+1
      * @param arr Integer[] array from which the max-heap is built
      */
-    static void heapBuild(Integer[] arr){
+    private static void heapBuild(Integer[] arr){
         for (int i = arr.length/2; i>=0; i--){
             heapify(arr, i, arr.length-1);
         }
@@ -79,7 +85,7 @@ public class Heapsort {
      * @param root the biggest element in which properties should be restored
      * @param end the last current element of max-heap
      */
-    static void heapify(Integer[] arr, int root, int end){
+    private static void heapify(Integer[] arr, int root, int end){
         int left = 2*root;
         int right = 2*root+1;
         int largest = root;

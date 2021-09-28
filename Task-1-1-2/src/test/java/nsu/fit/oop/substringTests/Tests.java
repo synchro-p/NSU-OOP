@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.FileNotFoundException;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +29,7 @@ public class Tests {
     }
     @ParameterizedTest
     @MethodSource ("giveVariousHardSituations")
-    void testHards(String file, String query, String expected){
+    void testHards(String file, String query, String expected) throws FileNotFoundException {
         assertEquals(expected, Substring.search(file,query));
     }
 }
