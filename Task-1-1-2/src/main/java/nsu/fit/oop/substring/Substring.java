@@ -1,62 +1,134 @@
 package nsu.fit.oop.substring;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Substring {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String input;
         Scanner sys = new Scanner(System.in);
-        String filename,searchFor;
-        filename = sys.nextLine();
-        searchFor = sys.nextLine();
-        String res = search(filename,searchFor);
-        System.out.println(res);
+
+        input = sys.nextLine();
+        File file = new File(input);
+        FileReader r = new FileReader(file);
+
+        ArrayList<Integer> res;
+        input = sys.nextLine();
+        res = search(r,input);
+
+        String output;
+        output = res.toString();
+        output = output. replace("[", "{"). replace("]", "}"). replaceAll(", ", ",");
+        System.out.println(output);
     }
     /**
-     * Search for all occurrences of a given substring in given file
-     * @param filename String that contains name of file where search is conducted
-     * @param query the substring for search
-     * @return string in format {r1,r2,r3...} with ri being an index of the first element
-     * of the i-th occurrence of substring
+     * Searches for all occurrences of a String in a Reader and returns them as an ArrayList of indices, using the
+     * Boyer-Moore-Horspool algorithm
+     * @param r Reader to be used
+     * @param query A string to search for
+     * @return ArrayList of all indices from which the given string begins (starting with 0)
+     * @throws IOException When an I/O error occurs while trying to update buffer
      */
-    public static String search(String filename, String query){
-        if (filename == null) throw new IllegalArgumentException("null filename");
-        if (filename.equals("")) throw new IllegalArgumentException("empty filename");
-        if (query==null) throw new IllegalArgumentException("null query");
-        if (query.equals("")) throw new IllegalArgumentException("empty query");
-
-        int l = query.length();
-        int skipped = -1*l+1;
-        char[] toCheck = new char[l];
-        StringBuilder res = new StringBuilder("{");
-        boolean firstSymbol = true;
-        File file = new File (filename);
-        try {
-            Scanner s = new Scanner(file);
-            s.useDelimiter("");
-            while (s.hasNext()){
-                char next = s.next().charAt(0);
-                if ((int)toCheck[l-1] > 0 && (int)toCheck[l-1] < 20 && (int)next > 0 && (int)next<20){
-                    continue;
-                }
-                System.arraycopy(toCheck, 1, toCheck, 0, l - 1);
-                toCheck[l-1] = next;
-                if (Arrays.equals(query.toCharArray(), toCheck)){
-                    if (firstSymbol){
-                        res.append(skipped);
-                        firstSymbol = false;
-                    }
-                    else {
-                        res.append(", ").append(skipped);
-                    }
-                }
-                skipped++;
-            }
-            res.append("}");
-        } catch (FileNotFoundException e){
-            throw new IllegalArgumentException("no such file in directory");
+    public static ArrayList<Integer> search(Reader r, String query) throws IOException {
+        if (r == null || !r.ready()) throw new IllegalArgumentException("Bad input - unavailable or null reader");
+        if (query == null || query.equals("")) throw new IllegalArgumentException("Bad input - null or empty string");
+        ArrayList<Integer> res = new ArrayList<>();
+        ArrayList<Character> buff = new ArrayList<>();
+        HashMap<String, Integer> shiftMap;
+        BufferedReader reader = new BufferedReader(r);
+        shiftMap = createShiftMap(query);
+        int skipped = 0;
+        for (int i = 0; i<query.length(); i++){
+            buff.add((char)reader.read());
         }
-        return res.toString();
+        while(true){
+            int unequal = -1;
+            for (int i = query.length()-1; i>=0; i--){
+                if (buff.get(i) != query.charAt(i)){
+                    unequal = i;
+                    break;
+                }
+            }
+            if (unequal == -1){
+                res.add(skipped);
+                skipped++;
+                try{
+                    buff = moveBuffer(buff, reader, 1);
+                } catch(EOFException e){
+                    break;
+                }
+            }
+            else {
+                char stopSymbol = buff.get(unequal);
+                int move = getShiftFromMap(shiftMap, stopSymbol, query.length());
+                skipped += move;
+                try{
+                    buff = moveBuffer(buff, reader, move);
+                } catch(EOFException e){
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Creates a HashMap which contains Boyer-Moore-Horspool shifts for each symbol in a string, as if it is
+     * a pattern string for the said algorithm
+     * @param s Pattern string for a Boyer-Moore-Horspool algorithm
+     * @return HashMap, containing individual symbols as keys and their respective shifts as values
+     */
+    static HashMap<String,Integer> createShiftMap(String s){
+        int l = s.length();
+        HashMap<String,Integer> res = new HashMap<>();
+        int i = 0;
+        while (s.length()>1){
+            char nextSymbol = s.charAt(0);
+            res.put(Character.toString(nextSymbol),l-(i++)-1);
+            s = s.substring(1);
+        }
+        return res;
+    }
+
+    /**
+     * Gets a shift for a specified symbol from a shift map created earlier by createShiftMap method
+     * @param map HashMap, containing 1-symbol Strings as keys and Integers (shifts for key symbols) as values
+     * @param ss Symbol that the shift needs to be gotten for
+     * @param plug Value to return if symbol is not in a shift table/not in a pattern string upon which the shift map
+     *             was built (for correct execution, this needs to be equal to pattern String length)
+     * @return Either a shift value for symbol received from a Map or plug if no such symbol is in the map's keys
+     */
+    static int getShiftFromMap(HashMap<String,Integer> map, char ss, int plug){
+        if (!map.containsKey(Character.toString(ss))){
+            return plug;
+        }
+        return map.get(Character.toString(ss));
+    }
+
+    /**
+     * Gets new symbols from the buffered reader and updates the buffer accordingly to fit all the new symbols and
+     * 1+ of the previous ones if it is needed
+     * @param buffer ArrayList buffer, which gets updated
+     * @param r BufferedReader, from which new symbols are received
+     * @param shift how many new symbols have to be written in buffer
+     * @return new value for buffer
+     * @throws IOException If an I/O error occurs when trying to read a symbol
+     */
+    static ArrayList<Character> moveBuffer(ArrayList<Character> buffer, BufferedReader r, int shift)
+            throws IOException {
+        ArrayList<Character> bufferNew = new ArrayList<>();
+        if (shift < buffer.size()){
+            bufferNew.addAll(buffer.subList(shift, buffer.size()));
+        }
+        for (int i = 0; i<shift; i++){
+            int c = r.read();
+            if (c == -1){
+                throw new EOFException();
+            }
+            bufferNew.add((char)c);
+        }
+        return bufferNew;
     }
 }
