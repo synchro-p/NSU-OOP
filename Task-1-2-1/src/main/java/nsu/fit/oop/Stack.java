@@ -58,7 +58,7 @@ public class Stack {
      * Pushes all elements from one Stack to another, deleting them
      * @param s Stack to receive elements from
      */
-    public void pushStack (Stack s) {
+    public void pushs (Stack s) {
         int l = s.getCount();
         Object[] nArr = new Object[l];
         for (int i=l-1; i>=0; i--){
@@ -70,17 +70,16 @@ public class Stack {
     }
 
     public static void main(String[] args) {
-        Stack stack = new Stack();
-        stack.push(2);
-        stack.push(7);
+        Stack s = new Stack();
+        s.push(2);
+        s.push(7);
         Stack add = new Stack();
         add.push(4);
         add.push(8);
-        stack.pushStack(add);
-        stack.pop();
-        stack.popStack(2);
-        System.out.println(stack.getCount());
-        stack.popStack(2);
+        s.pushs(add);
+        s.pop();
+        s.popStack(2);
+        System.out.println(s.getCount());
     }
 
     /**
@@ -92,4 +91,5 @@ public class Stack {
             array = Arrays.copyOf(array,size);
         }
     }
+
 }
