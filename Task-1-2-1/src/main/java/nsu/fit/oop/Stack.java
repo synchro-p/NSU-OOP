@@ -2,26 +2,28 @@ package nsu.fit.oop;
 
 import java.util.Arrays;
 
-public class Stack {
-    private Object[] array = new Object[10];
+public class Stack<T> {
+    private T[] array = (T[]) new Object[10];
     private int size = 10;
     private int count = 0;
 
     /**
      * Pushes an Object into Stack. If there is not enough space for a new element,
      * increases Stack's size
+     *
      * @param a Object to be pushed
      */
-    public void push (Object a){
+    public void push(T a) {
         resizeIfNeeded();
         array[count++] = a;
     }
 
     /**
      * Deletes the Object that was pushed last from stack
+     *
      * @return deleted Object
      */
-    public Object pop() {
+    public T pop() {
         if (count == 0) {
             return null;
         }
@@ -30,25 +32,31 @@ public class Stack {
 
     /**
      * Gets current size of stack (how many elements are in it)
+     *
      * @return stack size
      */
-    public int getCount (){
+    public int getCount() {
         //System.out.println("count equals "+this.count);
         return this.count;
     }
 
+    public Stack(){
+
+    }
+
     /**
      * Deletes several elements from Stack and returns them another Stack
+     *
      * @param n how many elements to delete
      * @return Stack, containing n deleted elements in order that they were initially
      */
-    public Stack popStack(int n){
-        Stack s = new Stack();
-        Object[] nArr = new Object[n];
-        for (int i = n-1; i>=0; i--){
+    public Stack<T> popS(int n) {
+        Stack<T> s = new Stack<T>();
+        T[] nArr = (T[]) new Object[this.count];
+        for (int i = n - 1; i >= 0; i--) {
             nArr[i] = this.pop();
         }
-        for (int i = 0; i<n; i++){
+        for (int i = 0; i < n; i++) {
             s.push(nArr[i]);
         }
         return s;
@@ -56,40 +64,41 @@ public class Stack {
 
     /**
      * Pushes all elements from one Stack to another, deleting them
+     *
      * @param s Stack to receive elements from
      */
-    public void pushs (Stack s) {
+    public void pushS(Stack<T> s) {
         int l = s.getCount();
-        Object[] nArr = new Object[l];
-        for (int i=l-1; i>=0; i--){
+        T[] nArr = (T[]) new Object[l];
+        for (int i = l - 1; i >= 0; i--) {
             nArr[i] = s.pop();
         }
-        for (int i = 0; i<l; i++){
+        for (int i = 0; i < l; i++) {
             this.push(nArr[i]);
         }
-    }
-
-    public static void main(String[] args) {
-        Stack s = new Stack();
-        s.push(2);
-        s.push(7);
-        Stack add = new Stack();
-        add.push(4);
-        add.push(8);
-        s.pushs(add);
-        s.pop();
-        s.popStack(2);
-        System.out.println(s.getCount());
     }
 
     /**
      * Doubles the current capacity of elements if it is required
      */
-    private void resizeIfNeeded(){
-        if (size==count){
-            size = size*2;
-            array = Arrays.copyOf(array,size);
+    private void resizeIfNeeded() {
+        if (size == count) {
+            size = size * 2;
+            array = Arrays.copyOf(array, size);
         }
     }
 
+    public static void main(String[] args) {
+        Stack<Integer> s = new Stack<Integer>();
+        s.push(2);
+        s.push(7);
+        Stack<Integer> add = new Stack<Integer>();
+        add.push(4);
+        add.push(8);
+        s.pushS(add);
+        s.pop();
+        s.popS(2);
+        System.out.println(s.getCount());
+        System.out.println(s.pop());
+    }
 }
