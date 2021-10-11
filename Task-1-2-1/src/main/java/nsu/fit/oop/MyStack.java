@@ -2,11 +2,11 @@ package nsu.fit.oop;
 
 import java.util.Arrays;
 
-public class Stack<T> {
+public class MyStack<T> {
     private T[] array = (T[]) new Object[10];
     private int size = 10;
     private int count = 0;
-
+    
     /**
      * Pushes an Object into Stack. If there is not enough space for a new element,
      * increases Stack's size
@@ -31,17 +31,13 @@ public class Stack<T> {
     }
 
     /**
-     * Gets current size of stack (how many elements are in it)
+     * Gets current size of stack (how many elements are in it) and prints it into console
      *
      * @return stack size
      */
     public int getCount() {
-        //System.out.println("count equals "+this.count);
+        System.out.println("count equals "+this.count);
         return this.count;
-    }
-
-    public Stack(){
-
     }
 
     /**
@@ -50,8 +46,8 @@ public class Stack<T> {
      * @param n how many elements to delete
      * @return Stack, containing n deleted elements in order that they were initially
      */
-    public Stack<T> popS(int n) {
-        Stack<T> s = new Stack<T>();
+    public MyStack<T> popS(int n) {
+        MyStack<T> s = new MyStack<>();
         T[] nArr = (T[]) new Object[this.count];
         for (int i = n - 1; i >= 0; i--) {
             nArr[i] = this.pop();
@@ -67,7 +63,7 @@ public class Stack<T> {
      *
      * @param s Stack to receive elements from
      */
-    public void pushS(Stack<T> s) {
+    public void pushS(MyStack<T> s) {
         int l = s.getCount();
         T[] nArr = (T[]) new Object[l];
         for (int i = l - 1; i >= 0; i--) {
@@ -88,17 +84,18 @@ public class Stack<T> {
         }
     }
 
+
     public static void main(String[] args) {
-        Stack<Integer> s = new Stack<Integer>();
+        MyStack<Integer> s = new MyStack<>();
         s.push(2);
         s.push(7);
-        Stack<Integer> add = new Stack<Integer>();
+        MyStack<Integer> add = new MyStack<>();
         add.push(4);
         add.push(8);
         s.pushS(add);
         s.pop();
         s.popS(2);
-        System.out.println(s.getCount());
+        s.getCount();
         System.out.println(s.pop());
     }
 }
