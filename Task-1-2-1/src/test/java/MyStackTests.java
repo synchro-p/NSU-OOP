@@ -32,7 +32,7 @@ public class MyStackTests {
         for (Integer integer : input) {
             r.push(integer);
         }
-        assertEquals(r.getCount(), input.size());
+        assertEquals(r.size(), input.size());
         for (int i = input.size() - 1; i >= 0; i--) {
             int check = r.pop();
             assertEquals(check, input.get(i));
@@ -42,7 +42,7 @@ public class MyStackTests {
     @Test
     public void testPopFromEmpty() {
         MyStack<Object> a = new MyStack<>();
-        assertEquals(0, a.getCount());
+        assertEquals(0, a.size());
         assertNull(a.pop());
     }
 
@@ -50,10 +50,10 @@ public class MyStackTests {
     @MethodSource("createTwoStacks")
     public void testTwoStacksConversion(MyStack<Integer> s1, MyStack<Integer> s2) {
         MyStack<Integer> a = new MyStack<>();
-        int size = s1.getCount() + s2.getCount();
-        a.pushS(s1);
-        a.pushS(s2);
-        assertEquals(size, a.getCount());
+        int size = s1.size() + s2.size();
+        a.pushStack(s1);
+        a.pushStack(s2);
+        assertEquals(size, a.size());
     }
 
     public static ArrayList<Arguments> createTwoStacks() {
@@ -70,7 +70,7 @@ public class MyStackTests {
             for (int j = 0; j < size2; j++) {
                 s2.push(r.nextInt());
             }
-            res.add(Arguments.of(s1,s2));
+            res.add(Arguments.of(s1, s2));
         }
         return res;
     }
