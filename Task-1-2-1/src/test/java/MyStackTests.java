@@ -6,12 +6,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MyStackTests {
     public static Stream<Arguments> presetPrimitiveTest() {
@@ -43,7 +43,7 @@ public class MyStackTests {
     public void testPopFromEmpty() {
         MyStack<Object> a = new MyStack<>();
         assertEquals(0, a.size());
-        assertNull(a.pop());
+        assertThrows(EmptyStackException.class, a::pop);
     }
 
     @ParameterizedTest

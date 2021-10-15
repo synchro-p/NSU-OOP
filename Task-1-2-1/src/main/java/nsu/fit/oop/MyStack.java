@@ -5,7 +5,7 @@ import java.util.EmptyStackException;
 
 public class MyStack<T> {
     private T[] array = (T[]) new Object[10];
-    private int count = 0;
+    private int size = 0;
 
     /**
      * Pushes an Object into Stack. If there is not enough space for a new element,
@@ -15,7 +15,7 @@ public class MyStack<T> {
      */
     public void push(T a) {
         resizeIfNeeded();
-        array[count++] = a;
+        array[size++] = a;
     }
 
     /**
@@ -24,10 +24,10 @@ public class MyStack<T> {
      * @return deleted Object
      */
     public T pop() {
-        if (count == 0) {
+        if (size == 0) {
             throw new EmptyStackException();
         }
-        return array[--count];
+        return array[--size];
     }
 
     /**
@@ -36,8 +36,8 @@ public class MyStack<T> {
      * @return stack size
      */
     public int size() {
-        System.out.println("count equals " + this.count);
-        return this.count;
+        System.out.println("size equals " + this.size);
+        return this.size;
     }
 
     /**
@@ -48,7 +48,7 @@ public class MyStack<T> {
      */
     public MyStack<T> popStack(int n) {
         MyStack<T> s = new MyStack<>();
-        T[] nArr = (T[]) new Object[this.count];
+        T[] nArr = (T[]) new Object[this.size];
         for (int i = n - 1; i >= 0; i--) {
             nArr[i] = this.pop();
         }
@@ -78,7 +78,7 @@ public class MyStack<T> {
      * Doubles the current capacity of elements if it is required
      */
     private void resizeIfNeeded() {
-        if (array.length == count) {
+        if (array.length == size) {
             array = Arrays.copyOf(array, array.length * 2);
         }
     }
