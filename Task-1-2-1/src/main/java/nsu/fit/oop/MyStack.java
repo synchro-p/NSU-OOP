@@ -1,12 +1,12 @@
 package nsu.fit.oop;
 
 import java.util.Arrays;
+import java.util.EmptyStackException;
 
 public class MyStack<T> {
     private T[] array = (T[]) new Object[10];
-    private int size = 10;
     private int count = 0;
-    
+
     /**
      * Pushes an Object into Stack. If there is not enough space for a new element,
      * increases Stack's size
@@ -25,7 +25,7 @@ public class MyStack<T> {
      */
     public T pop() {
         if (count == 0) {
-            return null;
+            throw new EmptyStackException();
         }
         return array[--count];
     }
@@ -35,8 +35,8 @@ public class MyStack<T> {
      *
      * @return stack size
      */
-    public int getCount() {
-        System.out.println("count equals "+this.count);
+    public int size() {
+        System.out.println("count equals " + this.count);
         return this.count;
     }
 
@@ -46,7 +46,7 @@ public class MyStack<T> {
      * @param n how many elements to delete
      * @return Stack, containing n deleted elements in order that they were initially
      */
-    public MyStack<T> popS(int n) {
+    public MyStack<T> popStack(int n) {
         MyStack<T> s = new MyStack<>();
         T[] nArr = (T[]) new Object[this.count];
         for (int i = n - 1; i >= 0; i--) {
@@ -63,8 +63,8 @@ public class MyStack<T> {
      *
      * @param s Stack to receive elements from
      */
-    public void pushS(MyStack<T> s) {
-        int l = s.getCount();
+    public void pushStack(MyStack<T> s) {
+        int l = s.size();
         T[] nArr = (T[]) new Object[l];
         for (int i = l - 1; i >= 0; i--) {
             nArr[i] = s.pop();
@@ -78,24 +78,8 @@ public class MyStack<T> {
      * Doubles the current capacity of elements if it is required
      */
     private void resizeIfNeeded() {
-        if (size == count) {
-            size = size * 2;
-            array = Arrays.copyOf(array, size);
+        if (array.length == count) {
+            array = Arrays.copyOf(array, array.length * 2);
         }
-    }
-
-
-    public static void main(String[] args) {
-        MyStack<Integer> s = new MyStack<>();
-        s.push(2);
-        s.push(7);
-        MyStack<Integer> add = new MyStack<>();
-        add.push(4);
-        add.push(8);
-        s.pushS(add);
-        s.pop();
-        s.popS(2);
-        s.getCount();
-        System.out.println(s.pop());
     }
 }
