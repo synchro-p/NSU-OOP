@@ -1,12 +1,19 @@
 package nsu.fit.oop;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.EmptyStackException;
 
+
 public class MyStack<T> {
-    private T[] array = (T[]) new Object[10];
+    private final Class<?> tClass;
+    private T[] array;
     private int size = 0;
 
+    public MyStack(Class<?> t){
+        tClass = t;
+        array = (T[]) Array.newInstance(t, 10);
+    }
     /**
      * Pushes an Object into Stack. If there is not enough space for a new element,
      * increases Stack's size
@@ -47,7 +54,7 @@ public class MyStack<T> {
      * @return Stack, containing n deleted elements in order that they were initially
      */
     public MyStack<T> popStack(int n) {
-        MyStack<T> s = new MyStack<>();
+        MyStack<T> s = new MyStack<>(tClass);
         T[] nArr = (T[]) new Object[this.size];
         for (int i = n - 1; i >= 0; i--) {
             nArr[i] = this.pop();
