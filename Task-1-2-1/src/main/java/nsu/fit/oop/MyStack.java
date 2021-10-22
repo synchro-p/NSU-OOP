@@ -37,8 +37,16 @@ public class MyStack<T> implements Iterable<T> {
     }
 
     /**
-     * Pushes an Object into Stack. If there is not enough space for a new element,
-     * increases Stack's size
+     * Equivalent to MyStack(Integer.class) - for convenience
+     */
+    public MyStack(){
+        tClass = Integer.class;
+        array = (T[]) Array.newInstance(Integer.class, 10);
+    }
+
+    /**
+     * Pushes an Object into MyStack. If there is not enough space for a new element,
+     * increases MyStack's size
      *
      * @param a Object to be pushed
      */
@@ -60,7 +68,7 @@ public class MyStack<T> implements Iterable<T> {
     }
 
     /**
-     * Gets current size of stack (how many elements are in it) and prints it into console
+     * Gets current size of stack (how many elements are in it)
      *
      * @return stack size
      */
@@ -69,10 +77,10 @@ public class MyStack<T> implements Iterable<T> {
     }
 
     /**
-     * Deletes several elements from Stack and returns them another Stack
+     * Deletes several elements from MyStack and returns them as another MyStack
      *
      * @param n how many elements to delete
-     * @return Stack, containing n deleted elements in order that they were initially
+     * @return MyStack, containing n deleted elements in order that they were initially
      */
     public MyStack<T> popStack(int n) {
         MyStack<T> s = new MyStack<>(tClass);
@@ -87,7 +95,7 @@ public class MyStack<T> implements Iterable<T> {
     }
 
     /**
-     * Pushes all elements from one Stack to another, deleting them
+     * Pushes all elements from one MyStack to another, deleting them from the first one
      *
      * @param s Stack to receive elements from
      */

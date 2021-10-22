@@ -17,7 +17,7 @@ public class MyStackTests {
     @ParameterizedTest
     @MethodSource("presetPrimitiveTest")
     public void testPrimitive(ArrayList<Integer> input) {
-        MyStack<Integer> r = new MyStack<>(Integer.class);
+        MyStack<Integer> r = new MyStack<>();
         for (Integer integer : input) {
             r.push(integer);
         }
@@ -105,7 +105,7 @@ public class MyStackTests {
 
     @Test
     public void testIterable(){
-        MyStack<Integer> s = new MyStack<>(Integer.class);
+        MyStack<Integer> s = new MyStack<>();
         s.push(1);
         s.push(2);
         s.push(1212);
