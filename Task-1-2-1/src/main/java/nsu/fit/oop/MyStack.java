@@ -1,19 +1,41 @@
 package nsu.fit.oop;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.EmptyStackException;
+import java.util.*;
 
 
-public class MyStack<T> {
+public class MyStack<T> implements Iterable<T> {
     private final Class<?> tClass;
     private T[] array;
     private int size = 0;
 
-    public MyStack(Class<?> t){
+    @Override
+    public Iterator<T> iterator() {
+        return (new Iterator<>() {
+            final T[] arrayL = array;
+            int sizeL = size;
+
+            @Override
+            public boolean hasNext() {
+                return sizeL > 0;
+            }
+
+            @Override
+            public T next() {
+                if (sizeL <= 0) {
+                    throw new NoSuchElementException();
+                } else {
+                    return arrayL[--sizeL];
+                }
+            }
+        });
+    }
+
+    public MyStack(Class<?> t) {
         tClass = t;
         array = (T[]) Array.newInstance(t, 10);
     }
+
     /**
      * Pushes an Object into Stack. If there is not enough space for a new element,
      * increases Stack's size
