@@ -106,6 +106,6 @@ public class Gradebook {
 
         System.out.println(myGradebook.isRaisedStipend(1));
         System.out.println(myGradebook.isRaisedStipend(2));
-        System.out.println(myGradebook.getAverage());
+        System.out.printf("%.3f",myGradebook.getAverage());
     }
 }
