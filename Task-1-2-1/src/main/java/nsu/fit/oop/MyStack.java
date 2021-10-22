@@ -43,7 +43,6 @@ public class MyStack<T> {
      * @return stack size
      */
     public int size() {
-        System.out.println("size equals " + this.size);
         return this.size;
     }
 
