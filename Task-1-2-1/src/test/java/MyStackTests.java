@@ -102,4 +102,22 @@ public class MyStackTests {
         assertEquals(s2.pop(), "of");
         assertEquals(s1.pop(), "sort");
     }
+
+    @Test
+    public void testIterable(){
+        MyStack<Integer> s = new MyStack<>(Integer.class);
+        s.push(1);
+        s.push(2);
+        s.push(1212);
+        s.push(-123894);
+        ArrayList<Integer> iterableArray = new ArrayList<>();
+        ArrayList<Integer> popArray = new ArrayList<>();
+        for (Integer i : s){
+            iterableArray.add(i);
+        }
+        while (s.size()>0){
+            popArray.add(s.pop());
+        }
+        assertEquals(iterableArray,popArray);
+    }
 }
