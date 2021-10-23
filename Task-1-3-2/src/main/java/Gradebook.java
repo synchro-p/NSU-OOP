@@ -1,7 +1,15 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class Gradebook {
+    public Gradebook(){
+        this.subjectMap = new HashMap<>();
+    }
+    public Gradebook(Gradebook another){
+        this.subjectMap = new HashMap<>(another.subjectMap);
+    }
+
     private static class Subject {
         int[] r = new int[8];
 
@@ -16,7 +24,7 @@ public class Gradebook {
             r[semester] = mark;
         }
 
-        /*private int getLast(){
+        private int getLast(){
             int res = 0;
             for (int i = 0; i<8; i++){
                 if (r[i] != 0){
@@ -24,7 +32,7 @@ public class Gradebook {
                 }
             }
             return res;
-        }*/
+        }
         private double getAvg() {
             int res = 0;
             int cnt = 0;
@@ -48,7 +56,7 @@ public class Gradebook {
         }
     }
 
-    private final HashMap<String, Subject> subjectMap = new HashMap<>();
+    private final HashMap<String, Subject> subjectMap;
 
     public void addSubject(String name) {
         subjectMap.put(name, new Subject());
@@ -58,16 +66,14 @@ public class Gradebook {
         subjectMap.get(subjectName).addMark(semester, mark);
     }
 
-    public boolean isRaisedStipend(int semester) {
-        boolean res = true;
+    public boolean isStipend(int semester) {
         ArrayList<Subject> collection = new ArrayList<>(subjectMap.values().stream().toList());
         for (Subject subject : collection) {
             if (subject.getBySemester(semester) < 4 && subject.getBySemester(semester) != 0) {
-                res = false;
-                break;
+                return false;
             }
         }
-        return res;
+        return true;
     }
 
     public double getAverage() {
@@ -78,34 +84,32 @@ public class Gradebook {
             res += s.getAvg() * s.notNullSemesters();
             cnt += s.notNullSemesters();
         }
-        return res / (double) cnt;
+        return Math.round(res/(double)cnt * 1000)/(double)1000;
     }
 
-    public static void main(String[] args) {
-        Gradebook myGradebook = new Gradebook();
-        myGradebook.addSubject("MathAn");
-        myGradebook.addMark("MathAn", 1, 4);
-        myGradebook.addMark("MathAn", 2, 3);
-        myGradebook.addSubject("Discrete");
-        myGradebook.addMark("Discrete", 1, 5);
-        myGradebook.addMark("Discrete", 2, 5);
-        myGradebook.addSubject("Declarative");
-        myGradebook.addMark("Declarative", 1, 3);
-        myGradebook.addMark("Declarative", 2, 3);
-        myGradebook.addSubject("Imperative");
-        myGradebook.addMark("Imperative", 1, 5);
-        myGradebook.addMark("Imperative", 2, 4);
-        myGradebook.addSubject("English");
-        myGradebook.addMark("English", 2, 4);
-        myGradebook.addSubject("History");
-        myGradebook.addMark("History", 1, 4);
-        myGradebook.addSubject("OKR");
-        myGradebook.addMark("OKR", 1, 5);
-        myGradebook.addSubject("Computational");
-        myGradebook.addMark("Computational", 2, 4);
-
-        System.out.println(myGradebook.isRaisedStipend(1));
-        System.out.println(myGradebook.isRaisedStipend(2));
-        System.out.printf("%.3f",myGradebook.getAverage());
+    public boolean isExcellentDiploma() {
+        //нет итоговых троек + 75%
+        int excellentCount = 0;
+        int allCount = 0;
+        ArrayList<Subject> collection = new ArrayList<>(subjectMap.values().stream().toList());
+        for (Subject s : collection) {
+            if (s.getLast()>0 && s.getLast()<3){
+                return false;
+            }
+            allCount++;
+            if (s.getLast() == 5){
+                excellentCount++;
+            }
+        }
+        if ((double)excellentCount/(double)allCount < 0.75){
+            return false;
+        }
+        //квалификационная на отл
+        if (!subjectMap.containsKey("Final paper")){
+            throw new NoSuchElementException("No final paper present!");
+        }
+        else {
+            return !(subjectMap.get("Final paper").getAvg() < 5);
+        }
     }
 }
