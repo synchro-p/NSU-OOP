@@ -1,23 +1,25 @@
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 public class TestGradebook {
 
     @ParameterizedTest
-    @MethodSource ("presetGradebooks")
-    public void testGradebooks(ArrayList<Gradebook> g){
+    @MethodSource("presetGradebooks")
+    public void testGradebooks(ArrayList<Gradebook> g) {
         Gradebook gradebook = g.get(0); // my own gradebook
         assertFalse(gradebook.isExcellentDiploma());
-        assertFalse(gradebook.isStipend(1)||gradebook.isStipend(2));
+        assertFalse(gradebook.isStipend(1) || gradebook.isStipend(2));
         assertEquals(gradebook.getAverage(), 4.083);
 
         gradebook = g.get(1); // excellent diploma without final paper
-        assertTrue(gradebook.isStipend(1)&&gradebook.isStipend(2)&&
-                gradebook.isStipend(3)&&gradebook.isStipend(4));
-        assertThrows (NoSuchElementException.class, gradebook::isExcellentDiploma);
+        assertTrue(gradebook.isStipend(1) && gradebook.isStipend(2) &&
+                gradebook.isStipend(3) && gradebook.isStipend(4));
+        assertThrows(NoSuchElementException.class, gradebook::isExcellentDiploma);
         assertEquals(4.8, gradebook.getAverage());
 
         gradebook = g.get(2); // excellent diploma with excellent final paper
@@ -29,7 +31,7 @@ public class TestGradebook {
         assertEquals(gradebook.getAverage(), 4.762);
     }
 
-    static ArrayList<ArrayList<Gradebook>> presetGradebooks(){
+    static ArrayList<ArrayList<Gradebook>> presetGradebooks() {
         ArrayList<Gradebook> res = new ArrayList<>();
         //Gradebook 1
         Gradebook myGradebook = new Gradebook();
@@ -79,10 +81,10 @@ public class TestGradebook {
         n1.addMark("Differential", 4, 5);
         n1.addMark("Project", 3, 4);
         n1.addMark("Project", 4, 5);
-        n1.addMark("OS", 3,4);
-        n1.addMark("OS", 4,4);
-        n1.addMark("Models", 3,5);
-        n1.addMark("Models", 4,5);
+        n1.addMark("OS", 3, 4);
+        n1.addMark("OS", 4, 4);
+        n1.addMark("Models", 3, 5);
+        n1.addMark("Models", 4, 5);
         n1.addMark("AI", 3, 5);
         n1.addMark("AI", 4, 5);
         // n1: 16/20 marks - excellent, no satisfactory, but no final work yet
