@@ -3,10 +3,11 @@ import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 public class Gradebook {
-    public Gradebook(){
+    public Gradebook() {
         this.subjectMap = new HashMap<>();
     }
-    public Gradebook(Gradebook another){
+
+    public Gradebook(Gradebook another) {
         this.subjectMap = new HashMap<>(another.subjectMap);
     }
 
@@ -24,15 +25,16 @@ public class Gradebook {
             r[semester] = mark;
         }
 
-        private int getLast(){
+        private int getLast() {
             int res = 0;
-            for (int i = 0; i<8; i++){
-                if (r[i] != 0){
+            for (int i = 0; i < 8; i++) {
+                if (r[i] != 0) {
                     res = r[i];
                 }
             }
             return res;
         }
+
         private double getAvg() {
             int res = 0;
             int cnt = 0;
@@ -44,7 +46,7 @@ public class Gradebook {
         }
 
         private int getBySemester(int semester) {
-            return r[semester-1];
+            return r[semester - 1];
         }
 
         private int notNullSemesters() {
@@ -84,7 +86,7 @@ public class Gradebook {
             res += s.getAvg() * s.notNullSemesters();
             cnt += s.notNullSemesters();
         }
-        return Math.round(res/(double)cnt * 1000)/(double)1000;
+        return Math.round(res / (double) cnt * 1000) / (double) 1000;
     }
 
     public boolean isExcellentDiploma() {
@@ -93,22 +95,21 @@ public class Gradebook {
         int allCount = 0;
         ArrayList<Subject> collection = new ArrayList<>(subjectMap.values().stream().toList());
         for (Subject s : collection) {
-            if (s.getLast()>0 && s.getLast()<3){
+            if (s.getLast() > 0 && s.getLast() < 3) {
                 return false;
             }
             allCount++;
-            if (s.getLast() == 5){
+            if (s.getLast() == 5) {
                 excellentCount++;
             }
         }
-        if ((double)excellentCount/(double)allCount < 0.75){
+        if ((double) excellentCount / (double) allCount < 0.75) {
             return false;
         }
         //квалификационная на отл
-        if (!subjectMap.containsKey("Final paper")){
+        if (!subjectMap.containsKey("Final paper")) {
             throw new NoSuchElementException("No final paper present!");
-        }
-        else {
+        } else {
             return !(subjectMap.get("Final paper").getAvg() < 5);
         }
     }
