@@ -23,6 +23,6 @@ public class TestsCalculator {
     @ParameterizedTest
     @MethodSource("getPresetExpressions")
     public void testExpressions(String expr, double expected){
-        assertEquals(expected,Calculator.parseExpression(new Scanner(expr)));
+        assertEquals(expected,Calculator.parseExpr(new Scanner(expr)));
     }
 }
