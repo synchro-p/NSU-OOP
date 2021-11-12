@@ -2,11 +2,9 @@ package nsu.fit.oop;
 
 import java.util.Scanner;
 
-//pow sqrt sin cos (log?)
-
 public class Calculator {
-    private static double parseExpression(Scanner s){
-        if (!s.hasNextInt()) {
+    static double parseExpression(Scanner s){
+        if (!s.hasNextDouble()) {
             String operation = s.next();
             switch (operation) {
                 case "+":
