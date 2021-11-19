@@ -5,20 +5,21 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Calculator {
-    static HashMap<String, OperationFactory> factoryHashMap = initHashMap();
+    private static final HashMap<String, OperationFactory> factoryHashMap = new HashMap<>();
 
-    static HashMap<String, OperationFactory> initHashMap(){
-        HashMap<String, OperationFactory> res = new HashMap<>();
-        res.put("+", new PlusFactory());
-        res.put("-", new MinusFactory());
-        res.put("*", new MultiplyFactory());
-        res.put("/", new DivideFactory());
-        res.put("sin", new SinusFactory());
-        res.put("cos", new CosinusFactory());
-        res.put("pow", new PowerFactory());
-        res.put("log", new LogarithmFactory());
-        res.put("sqrt", new SquareRootFactory());
-        return res;
+    public static void addOperation(String s,OperationFactory factory) {
+        factoryHashMap.put(s,factory);
+    }
+    public static void addDefault(){
+        addOperation("+", Plus.getFactory());
+        addOperation("-", Minus.getFactory());
+        addOperation("*", Multiply.getFactory());
+        addOperation("/", Divide.getFactory());
+        addOperation("sin", Sinus.getFactory());
+        addOperation("cos", Cosinus.getFactory());
+        addOperation("pow", Power.getFactory());
+        addOperation("log", Logarithm.getFactory());
+        addOperation("sqrt", SquareRoot.getFactory());
     }
 
     static double parseExpr(Scanner s){
@@ -26,7 +27,14 @@ public class Calculator {
             return s.nextDouble();
         }
         else {
-            OperationFactory factory = factoryHashMap.get(s.next());
+            if (!s.hasNext()) {
+                throw new IllegalArgumentException("Not enough arguments");
+            }
+            String operationString = s.next();
+            if (!factoryHashMap.containsKey(operationString)) {
+                throw new IllegalArgumentException("Bad input or operation unavailable");
+            }
+            OperationFactory factory = factoryHashMap.get(operationString);
             Operation operation = factory.createOperation();
             ArrayList<Double> newArguments = new ArrayList<>();
             for (int i = 0; i < operation.arity; i++) {
@@ -38,6 +46,15 @@ public class Calculator {
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
+        addOperation("+", Plus.getFactory());
+        addOperation("-", Minus.getFactory());
+        addOperation("*", Multiply.getFactory());
+        addOperation("/", Divide.getFactory());
+        addOperation("sin", Sinus.getFactory());
+        addOperation("cos", Cosinus.getFactory());
+        addOperation("pow", Power.getFactory());
+        addOperation("log", Logarithm.getFactory());
+        addOperation("sqrt", SquareRoot.getFactory());
         System.out.println(parseExpr(s));
     }
 }
