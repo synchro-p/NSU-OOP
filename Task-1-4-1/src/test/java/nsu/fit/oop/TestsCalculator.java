@@ -41,7 +41,7 @@ public class TestsCalculator {
 
     @ParameterizedTest
     @MethodSource("getBadInputs")
-    public void testBadInputNotEnoughArguments(String s) {
+    public void testBadInput(String s) {
         addDefault();
         assertThrows(IllegalArgumentException.class, () -> parseExpr(new Scanner(s)));
     }

@@ -43,18 +43,4 @@ public class Calculator {
             return operation.doIt(newArguments);
         }
     }
-
-    public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
-        addOperation("+", Plus.getFactory());
-        addOperation("-", Minus.getFactory());
-        addOperation("*", Multiply.getFactory());
-        addOperation("/", Divide.getFactory());
-        addOperation("sin", Sinus.getFactory());
-        addOperation("cos", Cosinus.getFactory());
-        addOperation("pow", Power.getFactory());
-        addOperation("log", Logarithm.getFactory());
-        addOperation("sqrt", SquareRoot.getFactory());
-        System.out.println(parseExpr(s));
-    }
 }
