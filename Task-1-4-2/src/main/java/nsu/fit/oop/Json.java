@@ -6,36 +6,38 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 public class Json {
-    static private ArrayList<Entry> entryList;
-    static ObjectMapper objectMapper = new ObjectMapper();
-    static File filename = Paths.get("notebook.json").toFile();
+    private ArrayList<Entry> entryList;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    File filename;
 
-    static void removeEntry (String entryName) {
+    public Json(String file) {
+        this.filename = Paths.get(file+".json").toFile();
+    }
+
+    void removeEntry (String entryName) {
         refresh();
         entryList.removeIf(i -> Objects.equals(i.getName(), entryName));
         writeToFile();
     }
 
-    static void addEntry(String entryName, String content) {
+    void addEntry(String entryName, String content) {
         Entry e = new Entry(entryName, content);
         refresh();
         entryList.add(e);
         writeToFile();
     }
 
-    static void showAll(){
+    void showAll(){
         refresh();
         for (Entry i : entryList) {
             printEntry(i);
         }
     }
 
-    static void showFiltered(LocalDateTime lower, LocalDateTime upper, ArrayList<String> nameFilters) {
+    void showFiltered(LocalDateTime lower, LocalDateTime upper, ArrayList<String> nameFilters) {
         refresh();
         for (Entry i : entryList) {
             if (i.getCreationDateTime().isAfter(upper) || i.getCreationDateTime().isBefore(lower)) {
@@ -49,7 +51,7 @@ public class Json {
         }
     }
 
-    private static void refresh(){
+    private void refresh(){
         try {
             entryList = new ArrayList<>(Arrays.asList(objectMapper.readValue(filename, Entry[].class)));
         } catch (IOException e) {
@@ -57,7 +59,7 @@ public class Json {
         }
     }
 
-    private static void writeToFile(){
+    private void writeToFile(){
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(filename, entryList);
         } catch (IOException e) {
@@ -65,9 +67,9 @@ public class Json {
         }
     }
 
-    private static void printEntry(Entry i) {
+    private void printEntry(Entry i) {
         System.out.println("Name: "+i.getName());
         System.out.println("Content: "+i.getContent());
-        System.out.println("Created: "+i.getCreationDateTime()+"\n");
+        System.out.println("Created: "+i.getCreationDateTime()+"\n-------");
     }
 }
