@@ -16,15 +16,12 @@ public class Entry {
     @JsonSerialize(using = StringSerializer.class)
     @JsonDeserialize(using = StringDeserializer.class)
     private final String content;
-
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private final LocalDateTime creationDateTime;
 
     Entry() {
-        name = "";
-        content = "";
-        creationDateTime = null;
+        this("","");
     }
 
     Entry(String n, String c) {
