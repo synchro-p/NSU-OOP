@@ -21,13 +21,13 @@ public class Entry {
     private final LocalDateTime creationDateTime;
 
     Entry() {
-        this("","");
+        this("", "", LocalDateTime.now());
     }
 
-    Entry(String n, String c) {
+    Entry(String n, String c, LocalDateTime dateTime) {
         name = n;
         content = c;
-        creationDateTime = LocalDateTime.now();
+        creationDateTime = dateTime;
     }
 
     String getName() {

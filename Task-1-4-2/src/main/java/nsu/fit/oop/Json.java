@@ -14,23 +14,27 @@ public class Json {
     File filename;
 
     public Json(String file) {
-        this.filename = Paths.get(file+".json").toFile();
+        this.filename = Paths.get(file + ".json").toFile();
     }
 
-    void removeEntry (String entryName) {
+    public Json() {
+        this.filename = Paths.get("notebook.json").toFile();
+    }
+
+    void removeEntry(String entryName) {
         refresh();
         entryList.removeIf(i -> Objects.equals(i.getName(), entryName));
         writeToFile();
     }
 
     void addEntry(String entryName, String content) {
-        Entry e = new Entry(entryName, content);
+        Entry e = new Entry(entryName, content, LocalDateTime.now());
         refresh();
         entryList.add(e);
         writeToFile();
     }
 
-    void showAll(){
+    void showAll() {
         refresh();
         for (Entry i : entryList) {
             printEntry(i);
@@ -51,7 +55,7 @@ public class Json {
         }
     }
 
-    private void refresh(){
+    private void refresh() {
         try {
             entryList = new ArrayList<>(Arrays.asList(objectMapper.readValue(filename, Entry[].class)));
         } catch (IOException e) {
@@ -59,7 +63,7 @@ public class Json {
         }
     }
 
-    private void writeToFile(){
+    private void writeToFile() {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(filename, entryList);
         } catch (IOException e) {
@@ -68,8 +72,16 @@ public class Json {
     }
 
     private void printEntry(Entry i) {
-        System.out.println("Name: "+i.getName());
-        System.out.println("Content: "+i.getContent());
-        System.out.println("Created: "+i.getCreationDateTime()+"\n-------");
+        System.out.println("Name: " + i.getName());
+        System.out.println("Content: " + i.getContent());
+        System.out.println("Created: " + i.getCreationDateTime() + "\n-------");
+    }
+
+    void clear() {
+        try {
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(filename, "");
+        } catch (IOException e) {
+            System.out.println("Unsuccessful write");
+        }
     }
 }

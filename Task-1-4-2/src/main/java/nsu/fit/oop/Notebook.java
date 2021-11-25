@@ -17,36 +17,32 @@ class Process implements Callable<Integer> {
     public Integer call() {
         Json fileProcessor = new Json(filename);
         if (addArgs != null) {
-            fileProcessor.addEntry(addArgs[0],addArgs[1]);
+            fileProcessor.addEntry(addArgs[0], addArgs[1]);
             return 0;
-        }
-        else if (removeName != null) {
+        } else if (removeName != null) {
             fileProcessor.removeEntry(removeName);
             return 0;
-        }
-        else if (showArguments != null) {
+        } else if (showArguments != null) {
             if (showArguments.length == 0) {
                 fileProcessor.showAll();
-            }
-            else if (showArguments.length == 1) {
+            } else if (showArguments.length == 1) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
                 LocalDateTime lower = LocalDateTime.parse(showArguments[0], formatter);
                 LocalDateTime upper = LocalDateTime.MAX;
                 ArrayList<String> filters = new ArrayList<>(List.of(""));
-                fileProcessor.showFiltered(lower,upper,filters);
-            }
-            else {
+                fileProcessor.showFiltered(lower, upper, filters);
+            } else {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
                 LocalDateTime lower = LocalDateTime.parse(showArguments[0], formatter);
                 LocalDateTime upper = LocalDateTime.parse(showArguments[1], formatter);
                 ArrayList<String> filters = new ArrayList<>(Arrays.asList(
-                        Arrays.copyOfRange(showArguments, 2, showArguments.length - 1)));
+                        Arrays.copyOfRange(showArguments, 2, showArguments.length)));
                 fileProcessor.showFiltered(lower, upper, filters);
             }
             return 0;
-        }
-        else return 0;
+        } else return 0;
     }
+
     @Option(arity = "2..2", names = "-add", description = "Adds an entry to list and exits")
     String[] addArgs;
 
@@ -59,7 +55,8 @@ class Process implements Callable<Integer> {
             * With no arguments - shows all entries""")
     String[] showArguments;
 
-    @Option(arity = "1",names = "-f",description = "Change name of output file (without the .json extension")
+    @Option(arity = "1", names = "-f", description = "Change name of output file (without the .json extension).\n " +
+            "Default value is \"notebook\"")
     String filename = "notebook";
 }
 
