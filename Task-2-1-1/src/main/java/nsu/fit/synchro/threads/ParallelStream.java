@@ -1,8 +1,5 @@
 package nsu.fit.synchro.threads;
 
-import nsu.fit.synchro.threads.Eratho;
-import nsu.fit.synchro.threads.MyFileReader;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class ParallelStream implements Runnable {
     @Override
-    public void run(){
+    public void run() {
         File input = new File("input.txt");
         ArrayList<Integer> numbers = new MyFileReader().read(input);
         ArrayList<Boolean> result = Collections.
