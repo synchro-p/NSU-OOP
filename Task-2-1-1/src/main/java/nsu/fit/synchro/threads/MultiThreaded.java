@@ -1,3 +1,5 @@
+package nsu.fit.synchro.threads;
+
 import java.io.File;
 import java.util.ArrayList;
 

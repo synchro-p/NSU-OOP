@@ -1,3 +1,9 @@
+package nsu.fit.synchro.solution;
+
+import nsu.fit.synchro.threads.MultiThreaded;
+import nsu.fit.synchro.threads.ParallelStream;
+import nsu.fit.synchro.threads.SingleThreaded;
+
 import java.util.ArrayList;
 
 public class TimeMeasurer {

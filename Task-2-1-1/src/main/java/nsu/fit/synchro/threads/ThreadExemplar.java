@@ -1,3 +1,5 @@
+package nsu.fit.synchro.threads;
+
 public class ThreadExemplar implements Runnable {
     private final Shared shared;
 
