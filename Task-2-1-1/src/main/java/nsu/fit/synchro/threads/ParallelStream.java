@@ -1,3 +1,8 @@
+package nsu.fit.synchro.threads;
+
+import nsu.fit.synchro.threads.Eratho;
+import nsu.fit.synchro.threads.MyFileReader;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;

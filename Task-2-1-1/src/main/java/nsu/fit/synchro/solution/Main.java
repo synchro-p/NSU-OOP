@@ -1,3 +1,5 @@
+package nsu.fit.synchro.solution;
+
 import javax.swing.*;
 
 public class Main {
