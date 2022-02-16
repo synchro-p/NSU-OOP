@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class ParallelStream implements Runnable {
+    /**
+     * Runs a test implementing parallel streaming
+     */
     @Override
     public void run() {
         File input = new File("input.txt");

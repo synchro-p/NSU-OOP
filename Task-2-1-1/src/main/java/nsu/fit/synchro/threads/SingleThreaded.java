@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class SingleThreaded implements Runnable {
+    /**
+     * Runs a test of simple, one-threaded solution
+     */
     @Override
     public void run() {
         File input = new File("input.txt");

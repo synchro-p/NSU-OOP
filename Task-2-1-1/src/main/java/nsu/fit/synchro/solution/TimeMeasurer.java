@@ -7,6 +7,11 @@ import nsu.fit.synchro.threads.SingleThreaded;
 import java.util.ArrayList;
 
 public class TimeMeasurer {
+    /**
+     * Measures the amount of time in ms different solutions take
+     * (averaged by 1000 approaches)
+     * @return ArrayList with results of measurements
+     */
     public ArrayList<Double> measure() {
         long start;
         long total;

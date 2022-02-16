@@ -7,6 +7,9 @@ public class ThreadExemplar implements Runnable {
         shared = newShared;
     }
 
+    /**
+     * Checks integers from 'shared' for primeness in synchronized fashion
+     */
     @Override
     public void run() {
         Integer toCheck = shared.getCurrent();
