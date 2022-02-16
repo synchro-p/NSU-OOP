@@ -5,8 +5,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// BufferedReader??
 public class MyFileReader {
+    /**
+     * Reads all Integer numbers from file and writes them into an array
+     * @param input file to be scanned
+     * @return ArrayList with Integers from input
+     */
     public ArrayList<Integer> read(File input) {
         ArrayList<Integer> numbers = new ArrayList<>();
         try {
