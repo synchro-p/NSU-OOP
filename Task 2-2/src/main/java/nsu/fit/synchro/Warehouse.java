@@ -4,6 +4,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class Warehouse {
     ArrayBlockingQueue<Integer> queue;
+
     public Warehouse(Info info) {
         queue = new ArrayBlockingQueue<>(info.getCapacity());
     }
@@ -25,13 +26,7 @@ public class Warehouse {
     }
 
     public synchronized Integer getOrder() {
-        if (queue.remainingCapacity() == queue.size()) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        notify();
         return queue.poll();
     }
 }
