@@ -6,14 +6,14 @@ import java.util.concurrent.SynchronousQueue;
 
 public class Dispatch implements Runnable {
     Info info;
-
-    public Dispatch(Info info) {
+    Warehouse warehouse;
+    public Dispatch(Info info, Warehouse warehouse) {
         this.info = info;
+        this.warehouse = warehouse;
     }
 
     @Override
     public void run() {
-        Warehouse warehouse = new Warehouse(info);
         ArrayList<Thread> cooks = new ArrayList<>();
         ArrayList<SynchronousQueue<Integer>> queues = new ArrayList<>();
         for (int i = 0; i < info.getCooks(); i++) {
