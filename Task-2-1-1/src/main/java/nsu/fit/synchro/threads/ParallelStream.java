@@ -18,6 +18,5 @@ public class ParallelStream implements Runnable {
                 parallelStream().
                 map(x -> new Eratho().isPrime(x)).
                 collect(Collectors.toCollection(ArrayList::new));
-        //System.out.println(result);
     }
 }
