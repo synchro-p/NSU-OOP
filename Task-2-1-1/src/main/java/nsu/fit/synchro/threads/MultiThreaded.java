@@ -34,6 +34,5 @@ public class MultiThreaded implements Runnable {
                 e.printStackTrace();
             }
         }
-        //System.out.println(shared.getResult());
     }
 }
