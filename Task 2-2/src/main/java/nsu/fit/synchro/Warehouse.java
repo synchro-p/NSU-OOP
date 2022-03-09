@@ -17,16 +17,39 @@ public class Warehouse {
                 e.printStackTrace();
             }
         }
-        try {
-            queue.put(num);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (queue.isEmpty()) {
+            try {
+                queue.put(num);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            notify();
+            System.out.println("notified");
         }
-        System.out.println("Warehouse capacity is " + queue.remainingCapacity());
+        else {
+            try {
+                queue.put(num);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public synchronized Integer getOrder() {
-        notify();
-        return queue.poll();
+        if (queue.isEmpty()) {
+            try {
+                System.out.println("waiting");
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("unwaited");
+        if (queue.remainingCapacity() == 0) {
+            int res = queue.poll();
+            notify();
+            return res;
+        }
+        else return queue.poll();
     }
 }
