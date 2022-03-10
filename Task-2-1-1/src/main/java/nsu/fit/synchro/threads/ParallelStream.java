@@ -18,5 +18,9 @@ public class ParallelStream implements Runnable {
                 parallelStream().
                 map(x -> new Eratho().isPrime(x)).
                 collect(Collectors.toCollection(ArrayList::new));
+        /*if (result.contains(true)) {
+            System.out.println("Found non-prime");
+        }
+        else System.out.println("All numbers prime");*/
     }
 }

@@ -34,5 +34,11 @@ public class MultiThreaded implements Runnable {
                 e.printStackTrace();
             }
         }
+        /*if (shared.foundNonPrime()) {
+            System.out.println("Found non-prime");
+        }
+        else {
+            System.out.println("All numbers prime");
+        }*/
     }
 }

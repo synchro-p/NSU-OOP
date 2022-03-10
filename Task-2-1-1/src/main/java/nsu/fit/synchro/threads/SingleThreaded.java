@@ -11,8 +11,12 @@ public class SingleThreaded implements Runnable {
     public void run() {
         File input = new File("input.txt");
         ArrayList<Integer> numbers = new MyFileReader().read(input);
-        ArrayList<Boolean> result = new ArrayList<>();
-        numbers.forEach(x -> result.add(new Eratho().isPrime(x)));
-        //System.out.println(result);
+        for (Integer number : numbers) {
+            if (!new Eratho().isPrime(number)) {
+                //System.out.println("Found non-prime");
+                return;
+            }
+        }
+        //System.out.println("All numbers prime");
     }
 }
