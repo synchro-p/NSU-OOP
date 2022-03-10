@@ -1,9 +1,11 @@
 package nsu.fit.synchro;
 
 import java.util.ArrayList;
+
 public class Init {
     Info info;
     Warehouse warehouse;
+
     public Init(Info info, Warehouse warehouse) {
         this.info = info;
         this.warehouse = warehouse;
@@ -19,7 +21,7 @@ public class Init {
         return result;
     }
 
-    public ArrayList<CookExample> initCooks () {
+    public ArrayList<CookExample> initCooks() {
         ArrayList<CookExample> result = new ArrayList<>();
         for (int i = 0; i < info.getCooks(); i++) {
             Integer exactExperience = info.getExp().get(i);
