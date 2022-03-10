@@ -10,7 +10,7 @@ public class Drawer extends JPanel {
     private int[] yys = null;
     private int HEIGHT = 720;
     private int WIDTH = 1080;
-    private final int scale = 4;
+    private final int scale = 100;
 
     public void setHEIGHT(Integer newHeight) {
         HEIGHT = newHeight;
