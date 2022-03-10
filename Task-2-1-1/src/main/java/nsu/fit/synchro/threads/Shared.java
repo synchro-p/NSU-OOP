@@ -7,7 +7,7 @@ public class Shared {
     private final ArrayList<Integer> numbers;
     private final HashMap<Integer, Boolean> result = new HashMap<>();
     private Integer current = 0;
-
+    private Boolean overFlag = false;
     public Shared(ArrayList<Integer> numberArray) {
         numbers = numberArray;
     }
@@ -17,15 +17,22 @@ public class Shared {
      * @return the next number for a thread to process or -1, if numbers are depleted
      */
     public synchronized Integer getCurrent() {
-        if (current == numbers.size())
+        if (current == numbers.size() || overFlag)
             return -1;
         return (numbers.get(current++));
+    }
+
+    public synchronized Boolean foundNonPrime(){
+        return overFlag;
     }
 
     /**
      * Puts new result into a map
      */
     public synchronized void updateResults(Integer number, Boolean isPrime) {
+        if (!isPrime) {
+            overFlag = true;
+        }
         result.put(number, isPrime);
     }
 
