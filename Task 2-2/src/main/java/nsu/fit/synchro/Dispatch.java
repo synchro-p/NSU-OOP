@@ -34,9 +34,9 @@ public class Dispatch implements Runnable {
             if (ordNum == -1) {
                 break;
             }
-            Integer i = Picker.chooseNext(frees,experiences);
+            Integer i = Picker.chooseNext(frees, experiences);
             while (i == -1) {
-                i = Picker.chooseNext(frees,experiences);
+                i = Picker.chooseNext(frees, experiences);
             }
             cooks.get(i).setOrder(ordNum);
             frees.get(i).set(false);

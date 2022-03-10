@@ -1,13 +1,14 @@
 package nsu.fit.synchro;
 
-public class CourierExample implements Runnable{
+public class CourierExample implements Runnable {
     Warehouse warehouse;
 
     public CourierExample(Warehouse warehouse) {
         this.warehouse = warehouse;
     }
+
     @Override
-    public void run(){
+    public void run() {
         while (true) {
             System.out.println("Courier free");
             Integer ordNum = warehouse.getOrder();

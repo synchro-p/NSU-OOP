@@ -25,8 +25,7 @@ public class Warehouse {
                 e.printStackTrace();
             }
             notify();
-        }
-        else {
+        } else {
             try {
                 queue.put(num);
                 System.out.println("Storage place left: " + queue.remainingCapacity());
@@ -45,13 +44,12 @@ public class Warehouse {
             }
         }
         if (queue.remainingCapacity() == 0) {
-            System.out.println("Storage place left: " + (queue.remainingCapacity()+1));
+            System.out.println("Storage place left: " + (queue.remainingCapacity() + 1));
             Integer res = queue.poll();
             notify();
             return res;
-        }
-        else {
-            System.out.println("Storage place left: " + (queue.remainingCapacity()+1));
+        } else {
+            System.out.println("Storage place left: " + (queue.remainingCapacity() + 1));
             return queue.poll();
         }
     }
