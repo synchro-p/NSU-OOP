@@ -8,12 +8,14 @@ public class Shared {
     private final HashMap<Integer, Boolean> result = new HashMap<>();
     private Integer current = 0;
     private Boolean overFlag = false;
+
     public Shared(ArrayList<Integer> numberArray) {
         numbers = numberArray;
     }
 
     /**
      * Gets the next unprocessed number with synchronization (for multithreading)
+     *
      * @return the next number for a thread to process or -1, if numbers are depleted
      */
     public synchronized Integer getCurrent() {
@@ -22,7 +24,7 @@ public class Shared {
         return (numbers.get(current++));
     }
 
-    public synchronized Boolean foundNonPrime(){
+    public synchronized Boolean foundNonPrime() {
         return overFlag;
     }
 
@@ -38,6 +40,7 @@ public class Shared {
 
     /**
      * Gets boolean values for each number from input in order
+     *
      * @return ArrayList with said boolean values
      */
     public ArrayList<Boolean> getResult() {

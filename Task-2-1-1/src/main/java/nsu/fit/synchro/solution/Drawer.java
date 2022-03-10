@@ -27,6 +27,7 @@ public class Drawer extends JPanel {
 
     /**
      * Draws a 6-point graph, x-coordinates are defined via WIDTH parameter, y-coordinates - via setter
+     *
      * @param graphics graphics parameter used to communicate with JFrame class (?)
      */
     public void paintComponent(Graphics graphics) {

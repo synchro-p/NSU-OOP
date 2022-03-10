@@ -8,6 +8,7 @@ public class MultiThreaded implements Runnable {
 
     /**
      * Sets the number of threads to use when performing simulation
+     *
      * @param newThreads how many threads to create and utilize in run()
      */
     public void setThreads(Integer newThreads) {
