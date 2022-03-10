@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class MyFileReader {
     /**
      * Reads all Integer numbers from file and writes them into an array
+     *
      * @param input file to be scanned
      * @return ArrayList with Integers from input
      */
