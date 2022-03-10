@@ -8,25 +8,24 @@ public class CourierExample implements Runnable{
     }
     @Override
     public void run(){
-        int cnt = 0;
-        while (cnt < 5) {
-            System.out.println("Courier init");
+        while (true) {
+            System.out.println("Courier free");
             Integer ordNum = warehouse.getOrder();
+            if (ordNum == null) {
+                return;
+            }
             System.out.println("Courier started delivering order " + ordNum);
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                return;
             }
             System.out.println("Courier delivered order " + ordNum);
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                return;
             }
-            System.out.println("Courier free");
-            cnt++;
         }
-        System.out.println("Courier gone");
     }
 }

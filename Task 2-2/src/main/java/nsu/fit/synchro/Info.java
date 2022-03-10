@@ -1,7 +1,5 @@
 package nsu.fit.synchro;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 
 public class Info {

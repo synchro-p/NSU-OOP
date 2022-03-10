@@ -20,15 +20,16 @@ public class Warehouse {
         if (queue.isEmpty()) {
             try {
                 queue.put(num);
+                System.out.println("Storage place left: " + queue.remainingCapacity());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             notify();
-            System.out.println("notified");
         }
         else {
             try {
                 queue.put(num);
+                System.out.println("Storage place left: " + queue.remainingCapacity());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -38,18 +39,20 @@ public class Warehouse {
     public synchronized Integer getOrder() {
         if (queue.isEmpty()) {
             try {
-                System.out.println("waiting");
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                return null;
             }
         }
-        System.out.println("unwaited");
         if (queue.remainingCapacity() == 0) {
-            int res = queue.poll();
+            System.out.println("Storage place left: " + (queue.remainingCapacity()+1));
+            Integer res = queue.poll();
             notify();
             return res;
         }
-        else return queue.poll();
+        else {
+            System.out.println("Storage place left: " + (queue.remainingCapacity()+1));
+            return queue.poll();
+        }
     }
 }

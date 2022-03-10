@@ -1,6 +1,6 @@
 {
-  "cooks":3,
-  "couriers":8,
-  "exp":[2,1,5],
+  "cooks":2,
+  "couriers":1,
+  "exp":[5,3],
   "capacity":20
 }
