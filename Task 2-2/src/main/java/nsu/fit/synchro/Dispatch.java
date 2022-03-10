@@ -1,50 +1,47 @@
 package nsu.fit.synchro;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static java.util.concurrent.Executors.newCachedThreadPool;
 
 public class Dispatch implements Runnable {
-    Info info;
-    Warehouse warehouse;
-    public Dispatch(Info info, Warehouse warehouse) {
-        this.info = info;
-        this.warehouse = warehouse;
+    ArrayList<CookExample> cooks;
+
+    public Dispatch(ArrayList<CookExample> cooks) {
+        this.cooks = cooks;
     }
 
     @Override
     public void run() {
-        ArrayList<Thread> cooks = new ArrayList<>();
-        ArrayList<SynchronousQueue<Integer>> queues = new ArrayList<>();
-        for (int i = 0; i < info.getCooks(); i++) {
-            SynchronousQueue<Integer> newQueue = new SynchronousQueue<>();
-            Thread newThread = new Thread(new ThreadExample(i, info.getExp().get(i), newQueue, warehouse));
-            queues.add(newQueue);
-            cooks.add(newThread);
-            newThread.start();
+        ArrayList<AtomicBoolean> frees = new ArrayList<>();
+        ArrayList<Integer> experiences = new ArrayList<>();
+        for (CookExample cook : cooks) {
+            frees.add(cook.isFree());
+            experiences.add(cook.getExp());
         }
-        Scanner scanner = new Scanner(System.in);
-        int cnt = 0;
+        ThreadPoolExecutor threadPool = (ThreadPoolExecutor) newCachedThreadPool();
+        ArrayBlockingQueue<Integer> channel = new ArrayBlockingQueue<>(10000);
+        Thread systemQueue = new Thread(new SystemQueue(channel));
+        systemQueue.start();
         while (true) {
-            if (scanner.hasNext()) {
-                if (scanner.next().equals(".")) {
-                    break;
-                } else {
-                    try {
-                        queues.get(cnt++ % 3).put(cnt);
-                        System.out.println("Order " + cnt + " queued for worker " + (cnt - 1));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+            if (channel.isEmpty()) {
+                continue;
             }
-        }
-        for (SynchronousQueue<Integer> queue : queues) {
-            try {
-                queue.put(-1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            Integer ordNum = channel.poll();
+            if (ordNum == -1) {
+                break;
             }
+            Integer i = Picker.chooseNext(frees,experiences);
+            while (i == -1) {
+                i = Picker.chooseNext(frees,experiences);
+            }
+            cooks.get(i).setOrder(ordNum);
+            frees.get(i).set(false);
+            threadPool.execute(cooks.get(i));
         }
+        threadPool.shutdown();
     }
 }
