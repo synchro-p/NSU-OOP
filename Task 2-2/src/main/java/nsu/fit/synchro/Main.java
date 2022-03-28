@@ -11,7 +11,7 @@ public class Main {
         ArrayList<Thread> couriers = init.initCouriers();
         ArrayList<CookExample> cooks = init.initCooks();
         //TimedRandomQueue source = new TimedRandomQueue();
-        SystemQueue source = new SystemQueue();
+        SourceRunnable source = new SystemQueue();
         Dispatcher dispatcher = new Dispatcher(cooks, source);
         dispatcher.run();
         for (Thread courier : couriers) {
