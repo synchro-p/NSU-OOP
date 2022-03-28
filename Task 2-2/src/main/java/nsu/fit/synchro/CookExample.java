@@ -6,10 +6,10 @@ public class CookExample implements Runnable {
     private final AtomicBoolean isFree;
     private final Integer exp;
     private final Integer id;
-    private final Warehouse warehouse;
+    private final PizzaWarehouse warehouse;
     private Integer order;
 
-    public CookExample(boolean isFree, Integer exp, Warehouse warehouse, Integer id) {
+    public CookExample(boolean isFree, Integer exp, PizzaWarehouse warehouse, Integer id) {
         this.isFree = new AtomicBoolean(isFree);
         this.warehouse = warehouse;
         this.id = id;

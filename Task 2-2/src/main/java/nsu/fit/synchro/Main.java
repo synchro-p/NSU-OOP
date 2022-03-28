@@ -3,15 +3,17 @@ package nsu.fit.synchro;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        Json json = new Json();
-        Info info = json.read("in.json");
-        Warehouse warehouse = new Warehouse(info);
-        Init init = new Init(info, warehouse);
+    public static void main(String[] args) {
+        JsonParser jsonParser = new JsonParser();
+        Info info = jsonParser.read("in.json");
+        PizzaWarehouse warehouse = new PizzaWarehouse(info.getCapacity());
+        WorkerInitializer init = new WorkerInitializer(info, warehouse);
         ArrayList<Thread> couriers = init.initCouriers();
         ArrayList<CookExample> cooks = init.initCooks();
-        Dispatch dispatch = new Dispatch(cooks);
-        dispatch.run();
+        //TimedRandomQueue source = new TimedRandomQueue();
+        SystemQueue source = new SystemQueue();
+        Dispatcher dispatcher = new Dispatcher(cooks, source);
+        dispatcher.run();
         for (Thread courier : couriers) {
             courier.interrupt();
         }

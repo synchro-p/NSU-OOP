@@ -1,9 +1,19 @@
 package nsu.fit.synchro;
 
-public class CourierExample implements Runnable {
-    Warehouse warehouse;
+import java.util.ArrayList;
 
-    public CourierExample(Warehouse warehouse) {
+public class CourierExample implements Runnable {
+    private final PizzaWarehouse warehouse;
+    private final Integer trunk;
+    private final Integer speed;
+
+    public Integer getTrunk() {
+        return trunk;
+    }
+
+    public CourierExample(PizzaWarehouse warehouse, Integer trunk, Integer speed) {
+        this.speed = speed;
+        this.trunk = trunk;
         this.warehouse = warehouse;
     }
 
@@ -11,22 +21,26 @@ public class CourierExample implements Runnable {
     public void run() {
         while (true) {
             System.out.println("Courier free");
-            Integer ordNum = warehouse.getOrder();
-            if (ordNum == null) {
+            ArrayList<Integer> orders = warehouse.getOrder(this);
+            if (orders == null) {
                 return;
             }
-            System.out.println("Courier started delivering order " + ordNum);
+            System.out.println("Courier started delivering orders " + orders);
+            long timeUnit = (long)(20000.0/(double)this.speed);
+            System.out.println(timeUnit);
             try {
-                Thread.sleep(10000);
+                Thread.sleep(timeUnit*2);
+                System.out.println("Courier on delivering track");
+                for (Integer order : orders) {
+                    Thread.sleep(timeUnit);
+                    System.out.println("Courier delivered order " + order);
+                }
+                System.out.println("Courier stopped delivering, coming back");
+                Thread.sleep(timeUnit*2);
             } catch (InterruptedException e) {
                 return;
             }
-            System.out.println("Courier delivered order " + ordNum);
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                return;
-            }
+            System.out.println("Courier delivered orders " + orders);
         }
     }
 }
