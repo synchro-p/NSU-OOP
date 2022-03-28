@@ -3,8 +3,8 @@ package nsu.fit.synchro;
 import java.util.ArrayList;
 
 public class WorkerInitializer {
-    Info info;
-    PizzaWarehouse warehouse;
+    private final Info info;
+    private final PizzaWarehouse warehouse;
 
     public WorkerInitializer(Info info, PizzaWarehouse warehouse) {
         this.info = info;

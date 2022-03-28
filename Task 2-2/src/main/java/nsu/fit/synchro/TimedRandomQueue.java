@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class TimedRandomQueue extends SourceThread{
+public class TimedRandomQueue extends SourceRunnable {
     @Override
     public void setChannel(ArrayBlockingQueue<Integer> channel) {
         super.channel = channel;

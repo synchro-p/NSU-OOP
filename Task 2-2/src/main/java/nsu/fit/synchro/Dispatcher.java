@@ -9,9 +9,9 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 
 public class Dispatcher implements Runnable {
     private final ArrayList<CookExample> cooks;
-    private final SourceThread source;
+    private final SourceRunnable source;
 
-    public Dispatcher(ArrayList<CookExample> cooks, SourceThread source) {
+    public Dispatcher(ArrayList<CookExample> cooks, SourceRunnable source) {
         this.cooks = cooks;
         this.source = source;
     }
@@ -29,6 +29,7 @@ public class Dispatcher implements Runnable {
         source.setChannel(channel);
         Thread sourceThread = new Thread(source);
         sourceThread.start();
+        Picker picker = new Picker();
         while (true) {
             Integer orderNumber = null;
             try {
@@ -42,7 +43,7 @@ public class Dispatcher implements Runnable {
             }
             Integer i;
             do {
-                i = Picker.chooseNext(frees, experiences);
+                i = picker.chooseNext(frees, experiences);
             } while (i == -1);
             cooks.get(i).setOrder(orderNumber);
             frees.get(i).set(false);
