@@ -7,11 +7,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.concurrent.Executors.newCachedThreadPool;
 
-public class Dispatch implements Runnable {
-    ArrayList<CookExample> cooks;
+public class Dispatcher implements Runnable {
+    private final ArrayList<CookExample> cooks;
+    private final SourceThread source;
 
-    public Dispatch(ArrayList<CookExample> cooks) {
+    public Dispatcher(ArrayList<CookExample> cooks, SourceThread source) {
         this.cooks = cooks;
+        this.source = source;
     }
 
     @Override
@@ -24,21 +26,25 @@ public class Dispatch implements Runnable {
         }
         ThreadPoolExecutor threadPool = (ThreadPoolExecutor) newCachedThreadPool();
         ArrayBlockingQueue<Integer> channel = new ArrayBlockingQueue<>(10000);
-        Thread systemQueue = new Thread(new SystemQueue(channel));
-        systemQueue.start();
+        source.setChannel(channel);
+        Thread sourceThread = new Thread(source);
+        sourceThread.start();
         while (true) {
-            if (channel.isEmpty()) {
-                continue;
+            Integer orderNumber = null;
+            try {
+                orderNumber = channel.take();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            Integer ordNum = channel.poll();
-            if (ordNum == -1) {
+            assert (orderNumber != null);
+            if (orderNumber == -1) {
                 break;
             }
-            Integer i = Picker.chooseNext(frees, experiences);
-            while (i == -1) {
+            Integer i;
+            do {
                 i = Picker.chooseNext(frees, experiences);
-            }
-            cooks.get(i).setOrder(ordNum);
+            } while (i == -1);
+            cooks.get(i).setOrder(orderNumber);
             frees.get(i).set(false);
             threadPool.execute(cooks.get(i));
         }

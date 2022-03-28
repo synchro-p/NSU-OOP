@@ -3,11 +3,10 @@ package nsu.fit.synchro;
 import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class SystemQueue implements Runnable {
-    ArrayBlockingQueue<Integer> channel;
-
-    public SystemQueue(ArrayBlockingQueue<Integer> channel) {
-        this.channel = channel;
+public class SystemQueue extends SourceThread {
+    @Override
+    public void setChannel(ArrayBlockingQueue<Integer> channel) {
+        super.channel = channel;
     }
 
     @Override

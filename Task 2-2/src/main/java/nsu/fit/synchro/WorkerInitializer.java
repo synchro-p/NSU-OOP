@@ -2,19 +2,20 @@ package nsu.fit.synchro;
 
 import java.util.ArrayList;
 
-public class Init {
+public class WorkerInitializer {
     Info info;
-    Warehouse warehouse;
+    PizzaWarehouse warehouse;
 
-    public Init(Info info, Warehouse warehouse) {
+    public WorkerInitializer(Info info, PizzaWarehouse warehouse) {
         this.info = info;
         this.warehouse = warehouse;
     }
 
     public ArrayList<Thread> initCouriers() {
         ArrayList<Thread> result = new ArrayList<>();
-        for (int i = 0; i < info.getCouriers(); i++) {
-            Thread newThread = new Thread(new CourierExample(warehouse));
+        for (int i = 0; i < info.getCouriersTrunk().size(); i++) {
+            Thread newThread = new Thread(new CourierExample(warehouse, info.getCouriersTrunk().get(i),
+                    info.getCouriersSpeed().get(i)));
             result.add(newThread);
             newThread.start();
         }
@@ -23,8 +24,8 @@ public class Init {
 
     public ArrayList<CookExample> initCooks() {
         ArrayList<CookExample> result = new ArrayList<>();
-        for (int i = 0; i < info.getCooks(); i++) {
-            Integer exactExperience = info.getExp().get(i);
+        for (int i = 0; i < info.getCooksExp().size(); i++) {
+            Integer exactExperience = info.getCooksExp().get(i);
             CookExample newCook = new CookExample(true, exactExperience, warehouse, i);
             result.add(newCook);
         }
