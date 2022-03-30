@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class PizzaWarehouse {
-    private ArrayBlockingQueue<Integer> queue;
+    private final ArrayBlockingQueue<Integer> queue;
 
     public PizzaWarehouse(Integer capacity) {
         queue = new ArrayBlockingQueue<>(capacity);
+    }
+
+    public ArrayBlockingQueue<Integer> getQueue(){
+        return queue;
     }
 
     public synchronized void putOrder(Integer num) {
@@ -27,7 +31,7 @@ public class PizzaWarehouse {
         notifyAll();
     }
 
-    public synchronized ArrayList<Integer> getOrder(CourierExample courier) {
+    public synchronized ArrayList<Integer> getOrder(Integer trunk) {
         while (queue.isEmpty()) {
             try {
                 wait();
@@ -35,8 +39,8 @@ public class PizzaWarehouse {
                 return null;
             }
         }
-        ArrayList<Integer> ordersTaken = new ArrayList<>(courier.getTrunk());
-        int toTake = Integer.min(courier.getTrunk(), queue.size());
+        ArrayList<Integer> ordersTaken = new ArrayList<>(trunk);
+        int toTake = Integer.min(trunk, queue.size());
         for (int i = 0; i < toTake; i++) {
             ordersTaken.add(queue.poll());
         }

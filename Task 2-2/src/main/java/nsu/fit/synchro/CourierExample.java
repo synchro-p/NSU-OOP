@@ -21,7 +21,7 @@ public class CourierExample implements Runnable {
     public void run() {
         while (true) {
             System.out.println("Courier free");
-            ArrayList<Integer> orders = warehouse.getOrder(this);
+            ArrayList<Integer> orders = warehouse.getOrder(this.trunk);
             if (orders == null) {
                 return;
             }
