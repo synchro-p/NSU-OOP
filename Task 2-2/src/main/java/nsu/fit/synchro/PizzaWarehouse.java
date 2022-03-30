@@ -10,7 +10,7 @@ public class PizzaWarehouse {
         queue = new ArrayBlockingQueue<>(capacity);
     }
 
-    public ArrayBlockingQueue<Integer> getQueue(){
+    public ArrayBlockingQueue<Integer> getQueue() {
         return queue;
     }
 
