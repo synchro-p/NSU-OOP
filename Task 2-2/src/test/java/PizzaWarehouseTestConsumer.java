@@ -3,10 +3,12 @@ import nsu.fit.synchro.PizzaWarehouse;
 public class PizzaWarehouseTestConsumer implements Runnable {
     Integer iterations;
     PizzaWarehouse warehouse;
-    public PizzaWarehouseTestConsumer(Integer iterations, PizzaWarehouse warehouse){
+
+    public PizzaWarehouseTestConsumer(Integer iterations, PizzaWarehouse warehouse) {
         this.iterations = iterations;
         this.warehouse = warehouse;
     }
+
     @Override
     public void run() {
 
