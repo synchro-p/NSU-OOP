@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Model implements Runnable {
-    Layout layout;
+    Field field;
     GameSnake snake;
     ArrayList<Coordinates> emptyTiles = new ArrayList<>();
     KeyHandler keyHandler;
 
-    public Model(Layout layout, GameSnake snake, KeyHandler keyHandler) {
-        this.layout = layout;
+    public Model(Field field, GameSnake snake, KeyHandler keyHandler) {
+        this.field = field;
         this.snake = snake;
         this.keyHandler = keyHandler;
     }
@@ -22,12 +22,12 @@ public class Model implements Runnable {
     public void run() {
         //Init
         boolean gameOver = false;
-        layout.addSnake(snake.getHeadCoordinates());
-        byte[][] grid = layout.getGrid();
+        field.addSnake(snake.getHeadCoordinates());
+        byte[][] grid = field.getGrid();
         System.out.println(grid.length + " " + grid[0].length);
-        for (int i = 0; i < layout.getWidth(); i++) {
-            for (int j = 0; j < layout.getLength(); j++) {
-                if (layout.getByCoordinates(new Coordinates(j, i)) == (byte) 0) {
+        for (int i = 0; i < field.getWidth(); i++) {
+            for (int j = 0; j < field.getLength(); j++) {
+                if (field.getByCoordinates(new Coordinates(j, i)) == (byte) 0) {
                     emptyTiles.add(new Coordinates(j, i));
                 }
             }
@@ -39,7 +39,7 @@ public class Model implements Runnable {
         Random random = new Random();
         for (int i = 0; i < foodQuantity; i++) {
             int index = random.nextInt(emptyTiles.size());
-            layout.addFood(emptyTiles.remove(index));
+            field.addFood(emptyTiles.remove(index));
         }
 
         //Model
@@ -54,22 +54,22 @@ public class Model implements Runnable {
             snake.updateDirection(direction);
             Coordinates nextPoint = snake.nextPoint(grid[0].length, grid.length);
             System.out.println(nextPoint.intoString());
-            if (!layout.isFood(nextPoint)) {
+            if (!field.isFood(nextPoint)) {
                 Coordinates toLose = snake.loseTail();
-                layout.wipe(toLose);
+                field.wipe(toLose);
                 emptyTiles.add(toLose);
             } else {
                 if (emptyTiles.size() > 0) {
                     int index = random.nextInt(emptyTiles.size());
-                    layout.addFood(emptyTiles.remove(index));
+                    field.addFood(emptyTiles.remove(index));
                 }
             }
-            if (layout.isValidSnakePosition(nextPoint)) {
+            if (field.isValidSnakePosition(nextPoint)) {
                 snake.growTo(nextPoint);
                 emptyTiles.remove(nextPoint);
-                layout.addSnake(nextPoint);
+                field.addSnake(nextPoint);
                 //Viewer
-                Viewer.printGrid(layout);
+                Viewer.printGrid(field);
                 Viewer.printMapByCoordinates(emptyTiles, grid.length, grid[0].length);
             } else gameOver = true;
         }

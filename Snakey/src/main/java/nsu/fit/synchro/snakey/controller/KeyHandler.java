@@ -5,7 +5,7 @@ import javafx.scene.input.KeyEvent;
 import nsu.fit.synchro.snakey.model.Direction;
 
 public class KeyHandler implements EventHandler<KeyEvent> {
-    Direction direction = Direction.Right;
+    Direction direction = Direction.RIGHT;
 
     @Override
     public void handle(KeyEvent event) {
