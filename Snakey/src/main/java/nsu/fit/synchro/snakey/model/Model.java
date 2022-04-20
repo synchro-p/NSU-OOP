@@ -12,14 +12,14 @@ public class Model implements Runnable {
     ArrayList<Coordinates> emptyTiles = new ArrayList<>();
     KeyHandler keyHandler;
 
-    public Model(Layout layout, GameSnake snake, KeyHandler keyHandler){
+    public Model(Layout layout, GameSnake snake, KeyHandler keyHandler) {
         this.layout = layout;
         this.snake = snake;
         this.keyHandler = keyHandler;
     }
 
     @Override
-    public  void run() {
+    public void run() {
         //Init
         boolean gameOver = false;
         layout.addSnake(snake.getHeadCoordinates());
@@ -27,8 +27,8 @@ public class Model implements Runnable {
         System.out.println(grid.length + " " + grid[0].length);
         for (int i = 0; i < layout.getWidth(); i++) {
             for (int j = 0; j < layout.getLength(); j++) {
-                if (layout.getByCoordinates(new Coordinates(j,i)) == (byte) 0) {
-                    emptyTiles.add(new Coordinates(j,i));
+                if (layout.getByCoordinates(new Coordinates(j, i)) == (byte) 0) {
+                    emptyTiles.add(new Coordinates(j, i));
                 }
             }
         }
@@ -61,8 +61,7 @@ public class Model implements Runnable {
                     Coordinates toLose = snake.loseTail();
                     layout.wipe(toLose);
                     emptyTiles.add(toLose);
-                }
-                else {
+                } else {
                     if (emptyTiles.size() > 0) {
                         int index = random.nextInt(emptyTiles.size());
                         layout.addFood(emptyTiles.remove(index));
@@ -72,8 +71,7 @@ public class Model implements Runnable {
                 //Viewer
                 Viewer.printGrid(layout);
                 Viewer.printMapByCoordinates(emptyTiles, grid.length, grid[0].length);
-            }
-            else gameOver = true;
+            } else gameOver = true;
         }
 
         //Game over section
