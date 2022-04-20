@@ -52,21 +52,21 @@ public class Model implements Runnable {
             //Controls
             Direction direction = keyHandler.getDirection();
             snake.updateDirection(direction);
-            Coordinates nextPoint = snake.nextPoint();
+            Coordinates nextPoint = snake.nextPoint(grid[0].length, grid.length);
             System.out.println(nextPoint.intoString());
+            if (!layout.isFood(nextPoint)) {
+                Coordinates toLose = snake.loseTail();
+                layout.wipe(toLose);
+                emptyTiles.add(toLose);
+            } else {
+                if (emptyTiles.size() > 0) {
+                    int index = random.nextInt(emptyTiles.size());
+                    layout.addFood(emptyTiles.remove(index));
+                }
+            }
             if (layout.isValidSnakePosition(nextPoint)) {
                 snake.growTo(nextPoint);
                 emptyTiles.remove(nextPoint);
-                if (!layout.isFood(nextPoint)) {
-                    Coordinates toLose = snake.loseTail();
-                    layout.wipe(toLose);
-                    emptyTiles.add(toLose);
-                } else {
-                    if (emptyTiles.size() > 0) {
-                        int index = random.nextInt(emptyTiles.size());
-                        layout.addFood(emptyTiles.remove(index));
-                    }
-                }
                 layout.addSnake(nextPoint);
                 //Viewer
                 Viewer.printGrid(layout);
