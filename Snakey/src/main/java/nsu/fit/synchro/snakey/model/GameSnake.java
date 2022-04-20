@@ -15,13 +15,25 @@ public class GameSnake {
         this.snekParts.add(headCoordinates);
     }
 
-    public Coordinates nextPoint() {
+    public Coordinates nextPoint(Integer width, Integer length) {
         Coordinates next = null;
         switch (direction) {
             case Up -> next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() - 1);
             case Down -> next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() + 1);
             case Left -> next = new Coordinates(headCoordinates.getX() - 1, headCoordinates.getY());
             case Right -> next = new Coordinates(headCoordinates.getX() + 1, headCoordinates.getY());
+        }
+        if (next.getX() == -1) {
+            next = new Coordinates(width - 1, next.getY());
+        }
+        if (next.getX().equals(width)) {
+            next = new Coordinates(0, next.getY());
+        }
+        if (next.getY() == -1) {
+            next = new Coordinates(next.getX(), length - 1);
+        }
+        if (next.getY().equals(length)) {
+            next = new Coordinates(next.getX(), 0);
         }
         return next;
     }
@@ -41,7 +53,9 @@ public class GameSnake {
 
     public Coordinates loseTail() {
         Coordinates toLose = snekParts.poll();
-        System.out.println(toLose.intoString());
+        if (toLose != null) {
+            System.out.println(toLose.intoString());
+        }
         return toLose;
     }
 }
