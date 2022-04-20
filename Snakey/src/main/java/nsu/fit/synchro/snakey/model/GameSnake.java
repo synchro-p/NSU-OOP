@@ -3,7 +3,6 @@ package nsu.fit.synchro.snakey.model;
 import java.util.ArrayDeque;
 
 
-
 public class GameSnake {
     private final ArrayDeque<Coordinates> snekParts;
     private Coordinates headCoordinates;
@@ -19,10 +18,10 @@ public class GameSnake {
     public Coordinates nextPoint() {
         Coordinates next = null;
         switch (direction) {
-            case Up -> next = new Coordinates(headCoordinates.getX(), headCoordinates.getY()-1);
-            case Down -> next= new Coordinates(headCoordinates.getX(), headCoordinates.getY()+1);
-            case Left -> next = new Coordinates(headCoordinates.getX()-1, headCoordinates.getY());
-            case Right -> next = new Coordinates(headCoordinates.getX()+1, headCoordinates.getY());
+            case Up -> next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() - 1);
+            case Down -> next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() + 1);
+            case Left -> next = new Coordinates(headCoordinates.getX() - 1, headCoordinates.getY());
+            case Right -> next = new Coordinates(headCoordinates.getX() + 1, headCoordinates.getY());
         }
         return next;
     }

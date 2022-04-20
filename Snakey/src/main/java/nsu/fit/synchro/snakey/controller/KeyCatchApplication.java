@@ -2,10 +2,8 @@ package nsu.fit.synchro.snakey.controller;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import nsu.fit.synchro.snakey.controller.KeyHandler;
 import nsu.fit.synchro.snakey.model.GameSnake;
 import nsu.fit.synchro.snakey.model.Layout;
 import nsu.fit.synchro.snakey.model.Model;

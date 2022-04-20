@@ -44,11 +44,11 @@ public class Layout {
         return grid;
     }
 
-    public Integer getWidth(){
+    public Integer getWidth() {
         return width;
     }
 
-    public Integer getLength(){
+    public Integer getLength() {
         return length;
     }
 

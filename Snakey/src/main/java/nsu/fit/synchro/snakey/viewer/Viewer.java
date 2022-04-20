@@ -16,13 +16,13 @@ public class Viewer {
         }
         System.out.println("***");
     }
+
     public static void printMapByCoordinates(ArrayList<Coordinates> coordinates, Integer y, Integer x) {
         for (int i = 0; i < y; i++) {
             for (int j = 0; j < x; j++) {
                 if (coordinates.contains(new Coordinates(j, i))) {
                     System.out.print("e");
-                }
-                else
+                } else
                     System.out.print("f");
             }
             System.out.println();
