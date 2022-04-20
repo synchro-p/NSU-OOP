@@ -8,9 +8,9 @@ public class GameSnake {
     private Coordinates headCoordinates;
     private Direction direction;
 
-    public GameSnake(Coordinates headCoordinates) {
+    public GameSnake(Coordinates headCoordinates, Direction startingDirection) {
         this.headCoordinates = headCoordinates;
-        direction = Direction.Right;
+        direction = startingDirection;
         this.snekParts = new ArrayDeque<>();
         this.snekParts.add(headCoordinates);
     }
@@ -18,22 +18,30 @@ public class GameSnake {
     public Coordinates nextPoint(Integer width, Integer length) {
         Coordinates next = null;
         switch (direction) {
-            case Up -> next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() - 1);
-            case Down -> next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() + 1);
-            case Left -> next = new Coordinates(headCoordinates.getX() - 1, headCoordinates.getY());
-            case Right -> next = new Coordinates(headCoordinates.getX() + 1, headCoordinates.getY());
-        }
-        if (next.getX() == -1) {
-            next = new Coordinates(width - 1, next.getY());
-        }
-        if (next.getX().equals(width)) {
-            next = new Coordinates(0, next.getY());
-        }
-        if (next.getY() == -1) {
-            next = new Coordinates(next.getX(), length - 1);
-        }
-        if (next.getY().equals(length)) {
-            next = new Coordinates(next.getX(), 0);
+            case UP -> {
+                next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() - 1);
+                if (next.getY() == -1) {
+                    next = new Coordinates(next.getX(), length - 1);
+                }
+            }
+            case DOWN -> {
+                next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() + 1);
+                if (next.getY().equals(length)) {
+                    next = new Coordinates(next.getX(), 0);
+                }
+            }
+            case LEFT -> {
+                next = new Coordinates(headCoordinates.getX() - 1, headCoordinates.getY());
+                if (next.getX().equals(-1)) {
+                    next = new Coordinates(width-1, next.getY());
+                }
+            }
+            case RIGHT -> {
+                next = new Coordinates(headCoordinates.getX() + 1, headCoordinates.getY());
+                if (next.getX().equals(width)) {
+                    next = new Coordinates(0, next.getY());
+                }
+            }
         }
         return next;
     }

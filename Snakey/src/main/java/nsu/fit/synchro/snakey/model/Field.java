@@ -4,13 +4,13 @@ import nsu.fit.synchro.snakey.model.Coordinates;
 
 import java.util.Arrays;
 
-public class Layout {
+public class Field {
     private final byte[][] grid;
     private final Integer width;
     private final Integer length;
 
 
-    public Layout(int length, int width) {
+    public Field(int length, int width) {
         this.width = width;
         this.length = length;
         grid = new byte[width][length];
