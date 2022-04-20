@@ -37,7 +37,9 @@ public class Dispatcher implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            assert (orderNumber != null);
+            if (orderNumber == null) {
+                throw new IllegalArgumentException();
+            }
             if (orderNumber == -1) {
                 break;
             }
