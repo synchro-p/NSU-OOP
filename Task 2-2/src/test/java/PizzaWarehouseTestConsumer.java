@@ -13,7 +13,7 @@ public class PizzaWarehouseTestConsumer implements Runnable {
     public void run() {
 
         for (int i = 0; i < iterations; i++) {
-            warehouse.getOrder(1);
+            warehouse.getOrders(1);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

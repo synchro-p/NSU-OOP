@@ -31,7 +31,7 @@ public class PizzaWarehouse {
         notifyAll();
     }
 
-    public synchronized ArrayList<Integer> getOrder(Integer trunk) {
+    public synchronized ArrayList<Integer> getOrders(Integer trunk) {
         while (queue.isEmpty()) {
             try {
                 wait();
@@ -41,7 +41,7 @@ public class PizzaWarehouse {
         }
         ArrayList<Integer> ordersTaken = new ArrayList<>(trunk);
         int toTake = Integer.min(trunk, queue.size());
-        for (int i = 0; i < toTake; i++) {
+        for (int i = 0; i < toTake && queue.size() > 0; i++) {
             ordersTaken.add(queue.poll());
         }
         System.out.println("Storage place left: " + (queue.remainingCapacity()));
