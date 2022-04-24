@@ -1,4 +1,4 @@
-package nsu.fit.synchro.snakey.model;
+package nsu.fit.synchro.snakeynew.model;
 
 public enum Direction {
     RIGHT,
