@@ -5,14 +5,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import nsu.fit.synchro.snakeynew.controller.DirectionController;
-import nsu.fit.synchro.snakeynew.model.*;
+import nsu.fit.synchro.snakeynew.model.Coordinates;
+import nsu.fit.synchro.snakeynew.model.Direction;
+import nsu.fit.synchro.snakeynew.model.Field;
+import nsu.fit.synchro.snakeynew.model.ModelInformation;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class KeyCatchApplication extends Application {
-    Timer timer;
     Stage primaryStage;
+    SnakeTimer timer;
 
     @Override
     public void start(Stage primaryStage) {
@@ -27,19 +29,17 @@ public class KeyCatchApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        timer = new Timer();
-        timer.schedule(new SnakeTimerTask(controller), 2000, 2000);
+        timer = new SnakeTimer(controller);
+        timer.start();
     }
 
     public void printGrid(Field field) {
         Viewer.printGrid(field);
     }
 
-    public void gameOver() throws Exception {
+    public void gameOver() {
         System.out.println("Game Over!");
-        timer.cancel();
-        this.stop();
-        // fixme Code below throws exception, game cannot finish on its own
-        // primaryStage.close();
+        timer.stop();
+        primaryStage.close();
     }
 }
