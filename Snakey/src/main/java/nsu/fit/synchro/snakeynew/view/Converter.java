@@ -1,7 +1,7 @@
-package nsu.fit.synchro.snakey.controller;
+package nsu.fit.synchro.snakeynew.view;
 
 import javafx.scene.input.KeyEvent;
-import nsu.fit.synchro.snakey.model.Direction;
+import nsu.fit.synchro.snakeynew.model.Direction;
 
 public class Converter {
     public static Direction convertKeyEventToDirection(KeyEvent event) {

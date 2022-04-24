@@ -23,8 +23,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'nsu.fit.synchro.snakey.controller'
-    mainClass = 'nsu.fit.synchro.snakey.controller.KeyCatchApplication'
+    mainModule = 'nsu.fit.synchro.snakeynew.view'
+    mainClass = 'nsu.fit.synchro.snakeynew.view.KeyCatchApplication'
 }
 
 javafx {

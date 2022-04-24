@@ -1,4 +1,4 @@
-package nsu.fit.synchro.snakey.model;
+package nsu.fit.synchro.snakeynew.model;
 
 import java.util.ArrayDeque;
 
@@ -6,27 +6,25 @@ import java.util.ArrayDeque;
 public class GameSnake {
     private final ArrayDeque<Coordinates> snekParts;
     private Coordinates headCoordinates;
-    private Direction direction;
 
-    public GameSnake(Coordinates headCoordinates, Direction startingDirection) {
+    public GameSnake(Coordinates headCoordinates) {
         this.headCoordinates = headCoordinates;
-        direction = startingDirection;
         this.snekParts = new ArrayDeque<>();
         this.snekParts.add(headCoordinates);
     }
 
-    public Coordinates nextPoint(Integer width, Integer length) {
+    public Coordinates nextPoint(Integer width, Integer height, Direction direction) {
         Coordinates next = null;
         switch (direction) {
             case UP -> {
                 next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() - 1);
                 if (next.getY() == -1) {
-                    next = new Coordinates(next.getX(), length - 1);
+                    next = new Coordinates(next.getX(), height - 1);
                 }
             }
             case DOWN -> {
                 next = new Coordinates(headCoordinates.getX(), headCoordinates.getY() + 1);
-                if (next.getY().equals(length)) {
+                if (next.getY().equals(height)) {
                     next = new Coordinates(next.getX(), 0);
                 }
             }
@@ -53,10 +51,6 @@ public class GameSnake {
 
     public Coordinates getHeadCoordinates() {
         return headCoordinates;
-    }
-
-    public void updateDirection(Direction direction) {
-        this.direction = direction;
     }
 
     public Coordinates loseTail() {
