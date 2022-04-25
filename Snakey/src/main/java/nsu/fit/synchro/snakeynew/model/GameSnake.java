@@ -54,10 +54,6 @@ public class GameSnake {
     }
 
     public Coordinates loseTail() {
-        Coordinates toLose = snekParts.poll();
-        if (toLose != null) {
-            System.out.println(toLose.intoString());
-        }
-        return toLose;
+        return snekParts.poll();
     }
 }

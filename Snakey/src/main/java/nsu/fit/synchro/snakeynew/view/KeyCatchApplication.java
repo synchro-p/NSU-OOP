@@ -1,8 +1,9 @@
 package nsu.fit.synchro.snakeynew.view;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import nsu.fit.synchro.snakeynew.controller.DirectionController;
 import nsu.fit.synchro.snakeynew.model.Coordinates;
@@ -15,14 +16,25 @@ import java.util.ArrayList;
 public class KeyCatchApplication extends Application {
     Stage primaryStage;
     SnakeTimer timer;
+    Drawer drawer;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+
+        ArrayList<Coordinates> obstacles = new ArrayList<>();
+        obstacles.add(new Coordinates(11,0));
         DirectionController controller = new DirectionController(new ModelInformation(Direction.RIGHT,
-                new Coordinates(0,0), new ArrayList<>(), 12, 5, this));
+                new Coordinates(0,0), obstacles, 12, 5, this));
+
         KeyHandler keyHandler = new KeyHandler(controller);
-        Scene scene = new Scene(new StackPane(), 20,20);
+
+        Group group = new Group();
+        Canvas canvas = new Canvas(640, 480);
+        group.getChildren().add(canvas);
+        drawer = new Drawer(canvas.getGraphicsContext2D());
+
+        Scene scene = new Scene(group, 640,480);
         scene.setOnKeyReleased(keyHandler);
 
         primaryStage.setTitle("Trying");
@@ -33,8 +45,8 @@ public class KeyCatchApplication extends Application {
         timer.start();
     }
 
-    public void printGrid(Field field) {
-        Viewer.printGrid(field);
+    public void drawGrid(Field field) {
+        drawer.drawGrid(field);
     }
 
     public void gameOver() {

@@ -25,7 +25,6 @@ public class Model {
 
     public void makeStep(Direction direction) {
         Coordinates nextPoint = snake.nextPoint(field.getWidth(), field.getHeight(), direction);
-        System.out.println(nextPoint.intoString());
         if (field.isFood(nextPoint)) {
             field.addRandomFood();
         } else {
@@ -35,7 +34,7 @@ public class Model {
         if (field.isValidSnakePosition(nextPoint)) {
             snake.growTo(nextPoint);
             field.addSnake(nextPoint);
-            application.printGrid(field);
+            application.drawGrid(field);
         }
         else {
             try {
