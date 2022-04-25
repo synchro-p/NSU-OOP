@@ -2,7 +2,7 @@ package nsu.fit.synchro.snakeynew.view;
 
 import nsu.fit.synchro.snakeynew.model.Field;
 
-public class Viewer {
+public class ConsoleViewer {
     public static void printGrid(Field field) {
         byte[][] grid = field.getGrid();
         for (int i = 0; i < field.getHeight(); i++) {

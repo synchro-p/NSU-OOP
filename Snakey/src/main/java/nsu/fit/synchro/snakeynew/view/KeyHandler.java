@@ -13,6 +13,8 @@ public class KeyHandler implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        controller.setDirection(Converter.convertKeyEventToDirection(event));
+        if (Converter.convertKeyEventToDirection(event) != null) {
+            controller.setDirection(Converter.convertKeyEventToDirection(event));
+        }
     }
 }

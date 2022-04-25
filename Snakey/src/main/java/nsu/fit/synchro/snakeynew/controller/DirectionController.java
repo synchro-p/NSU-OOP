@@ -7,6 +7,7 @@ import nsu.fit.synchro.snakeynew.model.ModelInformation;
 public class DirectionController {
     Direction direction;
     Model model;
+    Direction previousStepDirection;
     public DirectionController(ModelInformation information) {
         model = new Model(information.getStartingPosition(),
                 information.getObstacles(), information.getWidth(),
@@ -15,15 +16,16 @@ public class DirectionController {
     }
 
     public void setDirection(Direction direction) {
-        if (!(this.direction == Direction.LEFT && direction == Direction.RIGHT ||
-                this.direction == Direction.UP && direction == Direction.DOWN ||
-                this.direction == Direction.RIGHT && direction == Direction.LEFT ||
-                this.direction == Direction.DOWN && direction == Direction.UP
+        if (!(this.previousStepDirection == Direction.LEFT && direction == Direction.RIGHT ||
+                this.previousStepDirection == Direction.UP && direction == Direction.DOWN ||
+                this.previousStepDirection == Direction.RIGHT && direction == Direction.LEFT ||
+                this.previousStepDirection == Direction.DOWN && direction == Direction.UP
         ))
         this.direction = direction;
     }
 
     public void makeStep() {
         this.model.makeStep(direction);
+        previousStepDirection = direction;
     }
 }
