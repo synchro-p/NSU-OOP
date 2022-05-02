@@ -18,10 +18,6 @@ ext {
 sourceCompatibility = '16'
 targetCompatibility = '16'
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
 application {
     mainModule = 'nsu.fit.synchro.snakeynew.view'
     mainClass = 'nsu.fit.synchro.snakeynew.view.KeyCatchApplication'
