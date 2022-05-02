@@ -21,7 +21,6 @@ public class Field {
             }
         }
         random = new Random();
-        this.addRandomFood();
     }
 
     public void addObstacle(Coordinates coordinates) {

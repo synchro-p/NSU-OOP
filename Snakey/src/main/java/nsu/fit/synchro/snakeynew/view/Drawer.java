@@ -19,7 +19,7 @@ public class Drawer {
                     case ((byte) 1) -> Color.FIREBRICK;
                     case ((byte) 2) -> Color.YELLOW;
                     case ((byte) 3) -> Color.ORANGE;
-                    default -> Color.LIGHTGREEN;
+                    default -> Color.SPRINGGREEN;
                 };
                 graphicsContext.setFill(toPaint);
                 graphicsContext.fillRect(20*i, 20*j, 20, 20);

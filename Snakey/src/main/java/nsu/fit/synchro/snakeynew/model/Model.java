@@ -16,7 +16,13 @@ public class Model {
             field.addObstacle(coordinates);
         }
         field.addSnake(startingPosition);
+
+        for (int i = 0; i < width * height / 100; i++) {
+            field.addRandomFood();
+        }
+
         this.application = application;
+        application.drawGrid(field);
     }
 
     private void initSnake(Coordinates startingPosition) {
