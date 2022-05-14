@@ -9,7 +9,8 @@ public record Coordinates(Integer x, Integer y) {
         return x;
     }
 
-    public String intoString() {
+    @Override
+    public String toString() {
         return "[" + x + "," + y + "]";
     }
 }

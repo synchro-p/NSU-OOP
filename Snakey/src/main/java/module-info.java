@@ -6,4 +6,5 @@ module nsu.fit.synchro.snakeynew {
     exports nsu.fit.synchro.snakeynew.controller;
     exports nsu.fit.synchro.snakeynew.model;
     exports nsu.fit.synchro.snakeynew.view;
+    opens nsu.fit.synchro.snakeynew.controller to javafx.fxml;
 }

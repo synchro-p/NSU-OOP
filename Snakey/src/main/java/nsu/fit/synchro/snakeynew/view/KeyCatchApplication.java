@@ -2,12 +2,13 @@ package nsu.fit.synchro.snakeynew.view;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import nsu.fit.synchro.snakeynew.controller.DirectionController;
@@ -22,6 +23,7 @@ public class KeyCatchApplication extends Application {
     Stage primaryStage;
     SnakeTimer timer;
     Drawer drawer;
+    Label scoreLabel;
 
     @Override
     public void start(Stage primaryStage) {
@@ -36,7 +38,6 @@ public class KeyCatchApplication extends Application {
         hardDifficulty.setToggleGroup(group);
         hardDifficulty.setUserData(500000000);
 
-
         Button startButton = new Button("Start game");
         startButton.setOnAction((event) -> this.startConfigured(group));
 
@@ -50,19 +51,23 @@ public class KeyCatchApplication extends Application {
     }
 
     public void startConfigured(ToggleGroup toggleGroup){
-        Group group = new Group();
-        Canvas canvas = new Canvas(640, 480);
-        group.getChildren().add(canvas);
+        Canvas canvas = new Canvas(480, 480);
+        scoreLabel = new Label("Score: ");
+
+        GridPane layout = new GridPane();
+        layout.add(canvas, 0,0,1,32);
+        layout.add(scoreLabel, 1, 0, 1,1);
+
         drawer = new Drawer(canvas.getGraphicsContext2D());
 
         ArrayList<Coordinates> obstacles = new ArrayList<>();
         obstacles.add(new Coordinates(11,0));
         DirectionController controller = new DirectionController(new ModelInformation(Direction.RIGHT,
-                new Coordinates(0,0), obstacles, 32, 24, this));
+                new Coordinates(0,0), obstacles, 24, 24, this));
 
         KeyHandler keyHandler = new KeyHandler(controller);
 
-        Scene scene = new Scene(group, 640,480);
+        Scene scene = new Scene(layout, 640,480);
         scene.setOnKeyReleased(keyHandler);
 
         primaryStage.setTitle("Trying");
@@ -74,12 +79,27 @@ public class KeyCatchApplication extends Application {
     }
 
     public void drawGrid(Field field) {
-        drawer.drawGrid(field);
+        drawer.drawAll(field);
+    }
+
+    public void changeScore(Integer newScore) {
+        scoreLabel.setText("Score: " + newScore);
     }
 
     public void gameOver() {
-        System.out.println("Game Over!");
         timer.stop();
         primaryStage.close();
+
+        Label gameOverLabel = new Label("Game Over!");
+        Button restartButton = new Button("Restart");
+        // todo set actual restart action for restart button
+        restartButton.setOnAction((event) -> primaryStage.close());
+
+        VBox box = new VBox(15, gameOverLabel,restartButton);
+        box.setAlignment(Pos.BASELINE_CENTER);
+
+        Scene gameOverScene = new Scene(box,160,120);
+        primaryStage.setScene(gameOverScene);
+        primaryStage.show();
     }
 }
