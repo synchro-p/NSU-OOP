@@ -8,6 +8,8 @@ public class Model {
     private final Field field;
     private GameSnake snake;
     private final KeyCatchApplication application;
+    private Integer currentScore;
+
     public Model (Coordinates startingPosition, ArrayList<Coordinates> obstacles,
                   Integer width, Integer height, KeyCatchApplication application) {
         field = new Field(width, height);
@@ -16,13 +18,15 @@ public class Model {
             field.addObstacle(coordinates);
         }
         field.addSnake(startingPosition);
+        currentScore = 1;
 
-        for (int i = 0; i < width * height / 100; i++) {
+        for (int i = 0; i <= width * height / 100; i++) {
             field.addRandomFood();
         }
 
         this.application = application;
         application.drawGrid(field);
+        application.changeScore(currentScore);
     }
 
     private void initSnake(Coordinates startingPosition) {
@@ -33,6 +37,7 @@ public class Model {
         Coordinates nextPoint = snake.nextPoint(field.getWidth(), field.getHeight(), direction);
         if (field.isFood(nextPoint)) {
             field.addRandomFood();
+            currentScore++;
         } else {
             Coordinates toLose = snake.loseTail();
             field.wipe(toLose);
@@ -41,6 +46,7 @@ public class Model {
             snake.growTo(nextPoint);
             field.addSnake(nextPoint);
             application.drawGrid(field);
+            application.changeScore(currentScore);
         }
         else {
             try {
