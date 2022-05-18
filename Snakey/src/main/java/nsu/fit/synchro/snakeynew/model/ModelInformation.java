@@ -2,11 +2,8 @@ package nsu.fit.synchro.snakeynew.model;
 
 import nsu.fit.synchro.snakeynew.view.KeyCatchApplication;
 
-import java.util.ArrayList;
-
 public record ModelInformation(Direction startingDirection,
                                Coordinates startingPosition,
-                               ArrayList<Coordinates> obstacles,
                                Integer width, Integer height,
                                KeyCatchApplication application) {
 
@@ -18,10 +15,6 @@ public record ModelInformation(Direction startingDirection,
         return startingPosition;
     }
 
-    public ArrayList<Coordinates> getObstacles() {
-        return obstacles;
-    }
-
     public Integer getWidth() {
         return width;
     }
@@ -30,7 +23,7 @@ public record ModelInformation(Direction startingDirection,
         return height;
     }
 
-    public KeyCatchApplication getApplication(){
+    public KeyCatchApplication getApplication() {
         return application;
     }
 }

@@ -14,7 +14,7 @@ public class Util {
         result.put(Direction.RIGHT, Direction.LEFT);
         result.put(Direction.LEFT, Direction.RIGHT);
         result.put(Direction.DOWN, Direction.UP);
-        result.put(Direction.UP,Direction.DOWN);
+        result.put(Direction.UP, Direction.DOWN);
         return result;
     }
 

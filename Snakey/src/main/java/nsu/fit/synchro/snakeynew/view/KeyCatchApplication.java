@@ -24,6 +24,8 @@ public class KeyCatchApplication extends Application {
     SnakeTimer timer;
     Drawer drawer;
     Label scoreLabel;
+    SnakeTimer.Difficulty selectedDifficulty;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -33,52 +35,52 @@ public class KeyCatchApplication extends Application {
         RadioButton easyDifficulty = new RadioButton("easy difficulty");
         easyDifficulty.setToggleGroup(group);
         easyDifficulty.setSelected(true);
-        easyDifficulty.setUserData(1000000000);
+        easyDifficulty.setUserData(SnakeTimer.Difficulty.EASY);
         RadioButton hardDifficulty = new RadioButton("hard difficulty");
         hardDifficulty.setToggleGroup(group);
-        hardDifficulty.setUserData(500000000);
+        hardDifficulty.setUserData(SnakeTimer.Difficulty.HARD);
 
         Button startButton = new Button("Start game");
-        startButton.setOnAction((event) -> this.startConfigured(group));
+        startButton.setOnAction((event) ->
+                this.startConfigured((SnakeTimer.Difficulty) group.getSelectedToggle().getUserData()));
 
-        VBox vBox = new VBox(15, startButton,easyDifficulty,hardDifficulty);
+        VBox vBox = new VBox(15, startButton, easyDifficulty, hardDifficulty);
         vBox.setAlignment(Pos.BASELINE_CENTER);
 
-        Scene setupScene = new Scene(vBox,160,120);
+        Scene setupScene = new Scene(vBox, 160, 120);
 
         primaryStage.setScene(setupScene);
         primaryStage.show();
     }
 
-    public void startConfigured(ToggleGroup toggleGroup){
+    public void startConfigured(SnakeTimer.Difficulty difficulty) {
         Canvas canvas = new Canvas(480, 480);
         scoreLabel = new Label("Score: ");
 
         GridPane layout = new GridPane();
-        layout.add(canvas, 0,0,1,32);
-        layout.add(scoreLabel, 1, 0, 1,1);
+        layout.add(canvas, 0, 0, 1, 32);
+        layout.add(scoreLabel, 1, 0, 1, 1);
 
         drawer = new Drawer(canvas.getGraphicsContext2D());
 
-        ArrayList<Coordinates> obstacles = new ArrayList<>();
-        obstacles.add(new Coordinates(11,0));
         DirectionController controller = new DirectionController(new ModelInformation(Direction.RIGHT,
-                new Coordinates(0,0), obstacles, 24, 24, this));
+                new Coordinates(1, 1), 24, 24, this));
 
         KeyHandler keyHandler = new KeyHandler(controller);
 
-        Scene scene = new Scene(layout, 640,480);
+        Scene scene = new Scene(layout, 640, 480);
         scene.setOnKeyReleased(keyHandler);
 
         primaryStage.setTitle("Trying");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        timer = new SnakeTimer(controller, (Integer)toggleGroup.getSelectedToggle().getUserData());
+        timer = new SnakeTimer(controller, difficulty);
         timer.start();
+        this.selectedDifficulty = difficulty;
     }
 
-    public void drawGrid(Field field) {
+    public void draw(Field field) {
         drawer.drawAll(field);
     }
 
@@ -92,13 +94,12 @@ public class KeyCatchApplication extends Application {
 
         Label gameOverLabel = new Label("Game Over!");
         Button restartButton = new Button("Restart");
-        // todo set actual restart action for restart button
-        restartButton.setOnAction((event) -> primaryStage.close());
+        restartButton.setOnAction((event) -> this.startConfigured(selectedDifficulty));
 
-        VBox box = new VBox(15, gameOverLabel,restartButton);
+        VBox box = new VBox(15, gameOverLabel, restartButton);
         box.setAlignment(Pos.BASELINE_CENTER);
 
-        Scene gameOverScene = new Scene(box,160,120);
+        Scene gameOverScene = new Scene(box, 160, 120);
         primaryStage.setScene(gameOverScene);
         primaryStage.show();
     }

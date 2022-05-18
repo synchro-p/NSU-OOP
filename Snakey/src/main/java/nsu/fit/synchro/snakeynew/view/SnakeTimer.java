@@ -9,10 +9,18 @@ public class SnakeTimer extends AnimationTimer {
     private Boolean firstTime;
     private final Integer timeout;
 
-    public SnakeTimer(DirectionController controller, Integer timeout) {
+    public enum Difficulty {
+        HARD,
+        EASY
+    }
+
+    public SnakeTimer(DirectionController controller, Difficulty difficulty) {
         this.controller = controller;
         this.firstTime = true;
-        this.timeout = timeout;
+        this.timeout = switch (difficulty) {
+            case EASY -> 1000000000;
+            case HARD -> 500000000;
+        };
     }
 
     @Override
