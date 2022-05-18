@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 public class Model {
     private final Field field;
-    private GameSnake snake;
+    private Snake snake;
     private final KeyCatchApplication application;
     private Integer currentScore;
 
-    public Model (Coordinates startingPosition, ArrayList<Coordinates> obstacles,
-                  Integer width, Integer height, KeyCatchApplication application) {
+    public Model(Coordinates startingPosition, ArrayList<Coordinates> obstacles,
+                 Integer width, Integer height, KeyCatchApplication application) {
         field = new Field(width, height);
         this.initSnake(startingPosition);
         for (Coordinates coordinates : obstacles) {
@@ -25,16 +25,17 @@ public class Model {
         }
 
         this.application = application;
-        application.drawGrid(field);
+        application.draw(field);
         application.changeScore(currentScore);
     }
 
     private void initSnake(Coordinates startingPosition) {
-        snake = new GameSnake(startingPosition);
+        snake = new Snake(startingPosition);
     }
 
     public void makeStep(Direction direction) {
-        Coordinates nextPoint = snake.nextPoint(field.getWidth(), field.getHeight(), direction);
+        Coordinates nextPoint = direction.getNext(this.field.getWidth(), this.field.getHeight(),
+                this.snake.getHeadCoordinates());
         if (field.isFood(nextPoint)) {
             field.addRandomFood();
             currentScore++;
@@ -45,15 +46,10 @@ public class Model {
         if (field.isValidSnakePosition(nextPoint)) {
             snake.growTo(nextPoint);
             field.addSnake(nextPoint);
-            application.drawGrid(field);
+            application.draw(field);
             application.changeScore(currentScore);
-        }
-        else {
-            try {
-                application.gameOver();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } else {
+            application.gameOver();
         }
     }
 }

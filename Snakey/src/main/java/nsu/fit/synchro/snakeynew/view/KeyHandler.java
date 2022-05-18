@@ -7,7 +7,7 @@ import nsu.fit.synchro.snakeynew.controller.DirectionController;
 public class KeyHandler implements EventHandler<KeyEvent> {
     DirectionController controller;
 
-    public KeyHandler (DirectionController controller) {
+    public KeyHandler(DirectionController controller) {
         this.controller = controller;
     }
 
